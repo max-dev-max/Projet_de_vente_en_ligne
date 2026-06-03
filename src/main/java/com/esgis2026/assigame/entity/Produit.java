@@ -15,6 +15,10 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Entité représentant un produit vendu ou géré par l'application.
+ * Mappe la table "produit" dans la base de données.
+ */
 @Entity
 @Table(name = "produit")
 @Getter
@@ -45,6 +49,7 @@ public class Produit {
         return true;
     }
 
+    // Clé primaire générée automatiquement
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_produit;
@@ -71,6 +76,10 @@ public class Produit {
     @Column(unique = false, nullable = false, updatable = false)
     private LocalDateTime date_ajout;
 
+    /**
+     * Méthode exécutée automatiquement avant l'insertion en base
+     * pour définir la date d'ajout à la date et heure actuelles.
+     */
     @PrePersist
     public void definirDateAjout() {
         this.date_ajout = LocalDateTime.now();

@@ -16,19 +16,44 @@ public class CategorieProduitService {
         this.categorieProduitRepository = categorieProduitRepository;
     }
 
+    /**
+     * Récupère la liste de toutes les catégories de produits.
+     * 
+     * @return Une liste contenant toutes les catégories.
+     */
     public List<CategorieProduit> getAllCategorieProduit() {
         return categorieProduitRepository.findAll();
 
     }
 
+    /**
+     * Crée une nouvelle catégorie de produit et la sauvegarde dans la base de
+     * données.
+     * 
+     * @param categorieProduit L'objet catégorie à sauvegarder.
+     * @return La catégorie sauvegardée avec son ID généré.
+     */
     public CategorieProduit createCategorieProduit(CategorieProduit categorieProduit) {
         return categorieProduitRepository.save(categorieProduit);
     }
 
+    /**
+     * Supprime une catégorie de produit de la base de données à partir de son
+     * identifiant.
+     * 
+     * @param idCategorieProduit L'identifiant de la catégorie à supprimer.
+     */
     public void deleteCategorieProduit(Long idCategorieProduit) {
         categorieProduitRepository.deleteById(idCategorieProduit);
     }
 
+    /**
+     * Met à jour les informations d'une catégorie existante.
+     * 
+     * @param idCategorieProduit L'identifiant de la catégorie à modifier.
+     * @param details            Les nouvelles données à appliquer.
+     * @return La catégorie mise à jour.
+     */
     public CategorieProduit updateCategorieProduit(Long idCategorieProduit, CategorieProduit details) {
         CategorieProduit categorieProduit = categorieProduitRepository.findById(idCategorieProduit)
                 .orElseThrow(() -> new RuntimeException("CategorieProduit not found with id " + idCategorieProduit));

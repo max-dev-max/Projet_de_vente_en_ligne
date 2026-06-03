@@ -12,11 +12,16 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Entité représentant un utilisateur inscrit dans le système.
+ * Mappe la table "utilisateur" dans la base de données.
+ */
 @Entity
 @Table(name = "utilisateur")
 @Getter
 @Setter
 public class Utilisateur {
+    // Clé primaire générée automatiquement
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_utilisateur;
@@ -29,6 +34,9 @@ public class Utilisateur {
 
     @Column(unique = true, nullable = false, length = 50)
     private String email_utilisateur;
+
+    @Column(nullable = false, length = 255)
+    private String mot_de_passe_utilisateur;
 
     @Column(unique = true, nullable = false, length = 50)
     private String sexe_utilisateur;
