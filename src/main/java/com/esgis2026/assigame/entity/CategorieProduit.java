@@ -52,7 +52,7 @@ public class CategorieProduit {
     @Column(unique = true, nullable = false, length = 70)
     private String nom_categorieproduit;
 
-    @Column(unique = true, nullable = true, length = 100)
+    @Column(nullable = true, length = 100)
     private String description;
 
     @Override
