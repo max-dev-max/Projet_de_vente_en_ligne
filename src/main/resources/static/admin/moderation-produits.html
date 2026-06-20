@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modération Produit - Assigame</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+<body class="app-layout" data-admin-page="moderation-produits">
+
+  <aside class="sidebar" aria-label="Navigation admin">
+    <div class="sidebar-header"><i class="ph ph-shield-check"></i> Assigame Admin</div>
+    <nav class="sidebar-nav">
+      <a href="/admin/administration.html" class="nav-link" data-page="dashboard"><i class="ph ph-squares-four"></i> Dashboard</a>
+      <a href="/admin/demandes-vendeur.html" class="nav-link" data-page="demandes-vendeur"><i class="ph ph-users-three"></i> Demandes vendeur</a>
+      <a href="/admin/demandes-produits.html" class="nav-link" data-page="demandes-produits"><i class="ph ph-package"></i> Produits en attente</a>
+      <a href="/admin/moderation-produits.html" class="nav-link" data-page="moderation-produits"><i class="ph ph-magnifying-glass"></i> Modération</a>
+      <a href="/admin/categories.html" class="nav-link" data-page="categories"><i class="ph ph-grid-four"></i> Catégories</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="d-flex align-center gap-4">
+        <a href="/admin/demandes-produits.html" style="color:var(--text-sub);"><i class="ph ph-arrow-left"></i> Retour</a>
+        <h1 class="topbar-title">Modération du produit</h1>
+      </div>
+      <button type="button" class="btn btn-secondary" id="btnLogout"><i class="ph ph-sign-out"></i> Déconnexion</button>
+    </header>
+    <div class="page-content">
+      <div class="d-flex justify-between align-center mb-6 flex-wrap gap-4">
+        <div>
+          <h2 id="produitTitre" style="margin:0;">Chargement…</h2>
+          <p id="produitMeta" style="margin:4px 0 0;color:var(--text-sub);"></p>
+        </div>
+        <div class="d-flex gap-4">
+          <button type="button" class="btn btn-danger" id="btnRejeterProduit"><i class="ph ph-prohibit"></i> Rejeter</button>
+          <button type="button" class="btn btn-primary" id="btnApprouverProduit"><i class="ph ph-check-circle"></i> Approuver</button>
+        </div>
+      </div>
+      <div class="card" id="produitDetails"></div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+  <script src="/js/api.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/admin/common.js"></script>
+  <script src="/js/admin/moderation-produits.js"></script>
+  <script>document.getElementById('btnLogout')?.addEventListener('click',function(){AssigameAPI.logout();location.href='/catalogue.html';});</script>
+</body>
+</html>

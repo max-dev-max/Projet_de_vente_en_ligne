@@ -7,6 +7,10 @@ import com.esgis2026.assigame.service.ProduitService;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * CRUD du catalogue produits.
+ * Lecture publique (GET), création/modification/suppression réservées aux vendeurs et admin.
+ */
 @RestController
 @RequestMapping("/api/produits")
 public class ProduitController {
@@ -21,7 +25,7 @@ public class ProduitController {
      * Récupère tous les produits disponibles.
      * @return Liste de produits.
      */
-    @GetMapping
+    @GetMapping("/list")
     public List<Produit> getAllProduits() {
         return produitService.getAllProduits();
     }
@@ -31,7 +35,7 @@ public class ProduitController {
      * @param id Identifiant du produit.
      * @return Produit correspondant ou vide s'il n'existe pas.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public Optional<Produit> getProduitById(@PathVariable Long id) {
         return produitService.getProduitById(id);
     }
@@ -41,7 +45,7 @@ public class ProduitController {
      * @param produit Le produit à enregistrer.
      * @return Le produit enregistré.
      */
-    @PostMapping
+    @PostMapping("/create")
     public Produit createProduit(@RequestBody Produit produit) {
         return produitService.createProduit(produit);
     }
@@ -52,7 +56,7 @@ public class ProduitController {
      * @param produitDetails Les nouvelles informations.
      * @return Le produit modifié.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Produit updateProduit(@PathVariable Long id, @RequestBody Produit produitDetails) {
         return produitService.updateProduit(id, produitDetails);
     }
@@ -61,7 +65,7 @@ public class ProduitController {
      * Supprime un produit du catalogue.
      * @param id Identifiant du produit à supprimer.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteProduit(@PathVariable Long id) {
         produitService.deleteProduit(id);
     }

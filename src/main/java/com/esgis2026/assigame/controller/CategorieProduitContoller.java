@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * CRUD des catégories de produits.
+ * Lecture publique (GET), création/modification/suppression réservées à l'admin.
+ */
 @RestController
 @RequestMapping("/api/categorieproduit")
 public class CategorieProduitContoller {
@@ -47,26 +51,24 @@ public class CategorieProduitContoller {
     /**
      * Point d'accès DELETE pour supprimer une catégorie.
      * 
-     * @param id L'identifiant de la catégorie passé dans l'URL.
+     * @param nomCategorie Nom de la catégorie passé dans l'URL.
      */
-    @DeleteMapping("/delete/{id}")
-    public void deleteCategorieProduit(@PathVariable Long id) {
-        // Appelle la méthode de votre service
-        categorieProduitService.deleteCategorieProduit(id);
+    @DeleteMapping("/delete/{nomCategorie}")
+    public void deleteCategorieProduit(@PathVariable String nomCategorie) {
+        categorieProduitService.deleteCategorieProduit(nomCategorie);
     }
 
     /**
      * Point d'accès PUT pour modifier une catégorie existante.
      * 
-     * @param id                      L'identifiant de la catégorie à modifier.
+     * @param nomCategorie            Nom actuel de la catégorie à modifier.
      * @param categorieProduitDetails Les nouvelles données de la catégorie.
      * @return La catégorie mise à jour.
      */
-    @PutMapping("/update/{id}")
-    public CategorieProduit updateCategorieProduit(@PathVariable Long id,
+    @PutMapping("/update/{nomCategorie}")
+    public CategorieProduit updateCategorieProduit(@PathVariable String nomCategorie,
             @RequestBody CategorieProduit categorieProduitDetails) {
-        // Appelle la méthode de votre service
-        return categorieProduitService.updateCategorieProduit(id, categorieProduitDetails);
+        return categorieProduitService.updateCategorieProduit(nomCategorie, categorieProduitDetails);
     }
 
 }

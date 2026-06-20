@@ -16,8 +16,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Entité représentant un produit vendu ou géré par l'application.
- * Mappe la table "produit" dans la base de données.
+ * Produit mis en vente par un vendeur, rattaché à une catégorie.
+ * Table : produit
  */
 @Entity
 @Table(name = "produit")
@@ -49,7 +49,6 @@ public class Produit {
         return true;
     }
 
-    // Clé primaire générée automatiquement
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_produit;
@@ -70,16 +69,15 @@ public class Produit {
     @Column(unique = false, nullable = true, length = 10)
     private double prix;
 
+    /** URL ou chemin de l'image du produit */
     @Column()
     private String image;
 
+    /** Rempli automatiquement à la création via @PrePersist */
     @Column(unique = false, nullable = false, updatable = false)
     private LocalDateTime date_ajout;
 
-    /**
-     * Méthode exécutée automatiquement avant l'insertion en base
-     * pour définir la date d'ajout à la date et heure actuelles.
-     */
+    /** Définit la date d'ajout juste avant l'enregistrement en base */
     @PrePersist
     public void definirDateAjout() {
         this.date_ajout = LocalDateTime.now();
@@ -88,10 +86,12 @@ public class Produit {
     @Column(unique = false, nullable = false, length = 10)
     private String statut;
 
+    /** Catégorie à laquelle appartient le produit */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idcategorie_produit", nullable = false)
     private CategorieProduit idcategorie_produit;
 
+    /** Vendeur propriétaire du produit */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_utilisateur", nullable = false)
     private Utilisateur id_utilisateur;

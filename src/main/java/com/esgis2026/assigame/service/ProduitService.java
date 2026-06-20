@@ -8,6 +8,9 @@ import com.esgis2026.assigame.repository.ProduitRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Logique métier CRUD du catalogue produits.
+ */
 @Service
 public class ProduitService {
 

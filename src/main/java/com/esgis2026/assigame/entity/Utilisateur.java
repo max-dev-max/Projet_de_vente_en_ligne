@@ -1,5 +1,6 @@
 package com.esgis2026.assigame.entity;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,33 +14,38 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Entité représentant un utilisateur inscrit dans le système.
- * Mappe la table "utilisateur" dans la base de données.
+ * Utilisateur de la plateforme (admin ou vendeur).
+ * Table : utilisateur
  */
 @Entity
 @Table(name = "utilisateur")
 @Getter
 @Setter
 public class Utilisateur {
-    // Clé primaire générée automatiquement
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_utilisateur;
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String nom_utilisateur;
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String prenom_utilisateur;
 
+    /** Identifiant de connexion */
     @Column(unique = true, nullable = false, length = 50)
     private String email_utilisateur;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 50)
+    private String sexe_utilisateur;
+
+    /** Mot de passe hashé (BCrypt) — jamais exposé au front */
+    @Column(nullable = false)
     private String mot_de_passe_utilisateur;
 
-    @Column(unique = true, nullable = false, length = 50)
-    private String sexe_utilisateur;
+    /** ACTIF | EN_ATTENTE | REFUSE | SUSPENDU */
+    @Column(nullable = false)
+    private String statut_compte;
 
     @Override
     public int hashCode() {
@@ -74,9 +80,10 @@ public class Utilisateur {
                 + ", id_typeutilisateur=" + id_typeutilisateur + "]";
     }
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String telephone_utilisateur;
 
+    /** Rôle : ADMIN, Particulier, Professionnel ou Partenaire Vip */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_typeutilisateur", nullable = false)
     private TypeUtilisateur id_typeutilisateur;

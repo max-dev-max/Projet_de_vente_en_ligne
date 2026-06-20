@@ -10,8 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Entité représentant une catégorie de produits dans l'application.
- * Mappe la table "categorieproduit" dans la base de données.
+ * Catégorie de produits du catalogue (ex : Électronique, Mode, Maison).
+ * Table : categorieproduit
  */
 @Entity
 @Getter
@@ -44,7 +44,6 @@ public class CategorieProduit {
         return true;
     }
 
-    // Clé primaire générée automatiquement
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idcategorie_produit;
@@ -52,7 +51,7 @@ public class CategorieProduit {
     @Column(unique = true, nullable = false, length = 70)
     private String nom_categorieproduit;
 
-    @Column(nullable = true, length = 100)
+    @Column(unique = true, nullable = false, length = 100)
     private String description;
 
     @Override

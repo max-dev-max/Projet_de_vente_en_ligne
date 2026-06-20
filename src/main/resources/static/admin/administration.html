@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration - Assigame</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+<body class="app-layout" data-admin-page="dashboard">
+
+  <aside class="sidebar" aria-label="Navigation admin">
+    <div class="sidebar-header"><i class="ph ph-shield-check"></i> Assigame Admin</div>
+    <nav class="sidebar-nav">
+      <a href="/admin/administration.html" class="nav-link" data-page="dashboard"><i class="ph ph-squares-four"></i> Dashboard</a>
+      <a href="/admin/demandes-vendeur.html" class="nav-link" data-page="demandes-vendeur"><i class="ph ph-users-three"></i> Demandes vendeur</a>
+      <a href="/admin/demandes-produits.html" class="nav-link" data-page="demandes-produits"><i class="ph ph-package"></i> Produits en attente</a>
+      <a href="/admin/moderation-produits.html" class="nav-link" data-page="moderation-produits"><i class="ph ph-magnifying-glass"></i> Modération</a>
+      <a href="/admin/categories.html" class="nav-link" data-page="categories"><i class="ph ph-grid-four"></i> Catégories</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title">Dashboard Administration</h1>
+      <button type="button" class="btn btn-secondary" id="btnLogout"><i class="ph ph-sign-out"></i> Déconnexion</button>
+    </header>
+    <div class="page-content">
+      <h2 class="mb-6">Vue d'ensemble de la modération</h2>
+      <div class="admin-kpi-grid">
+        <div class="card">
+          <h3>Demandes vendeurs en attente</h3>
+          <div class="kpi-value" id="kpiDemandesVendeur">—</div>
+          <p><a href="/admin/demandes-vendeur.html">Gérer les demandes →</a></p>
+        </div>
+        <div class="card">
+          <h3>Produits à modérer</h3>
+          <div class="kpi-value" id="kpiProduitsAttente">—</div>
+          <p><a href="/admin/demandes-produits.html">Commencer la modération →</a></p>
+        </div>
+        <div class="card">
+          <h3>Catalogue public</h3>
+          <div class="kpi-value"><i class="ph ph-storefront"></i></div>
+          <p><a href="/catalogue.html">Voir le catalogue →</a></p>
+        </div>
+      </div>
+      <div class="card mt-6">
+        <h3>Actions rapides</h3>
+        <p>Gérez les priorités de conformité de la plateforme.</p>
+        <div class="d-flex gap-4 mt-6">
+          <a href="/admin/demandes-vendeur.html" class="btn btn-primary">Traiter les vendeurs</a>
+          <a href="/admin/demandes-produits.html" class="btn btn-secondary">Modérer les produits</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+  <script src="/js/api.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/admin/common.js"></script>
+  <script src="/js/admin/administration.js"></script>
+  <script>document.getElementById('btnLogout')?.addEventListener('click',function(){AssigameAPI.logout();location.href='/catalogue.html';});</script>
+</body>
+</html>

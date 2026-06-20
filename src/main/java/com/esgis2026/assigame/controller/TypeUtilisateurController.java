@@ -35,7 +35,7 @@ public class TypeUtilisateurController {
     }
 
     /**
-     * Permet de créer un nouveau type d'utilisateur (ex: ADMIN, CLIENT).
+     * Permet de créer un nouveau type d'utilisateur (ex: ADMIN, Particulier).
      * @param typeUtilisateur Les informations du nouveau type.
      * @return Le type créé.
      */

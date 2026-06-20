@@ -8,6 +8,9 @@ import com.esgis2026.assigame.repository.TypeUtilisateurRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Logique métier CRUD des types d'utilisateur (admin et types vendeur).
+ */
 @Service
 public class TypeUtilisateurService {
 

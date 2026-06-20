@@ -9,10 +9,6 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Entité représentant les différents rôles ou types d'utilisateurs (ex: Admin, Client).
- * Mappe la table "typeutilisateur" dans la base de données.
- */
 @Entity
 @Table(name = "typeutilisateur")
 @Getter
@@ -50,7 +46,6 @@ public class TypeUtilisateur {
         return true;
     }
 
-    // Clé primaire générée automatiquement
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_typeutilisateur;
@@ -60,7 +55,7 @@ public class TypeUtilisateur {
 
     private String libelle_typeutilisateur;
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(nullable = false, length = 255)
     private String description_typeutilisateur;
 
 }

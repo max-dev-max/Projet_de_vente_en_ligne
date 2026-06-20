@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Catalogue public Assigame — produits gaming et électronique.">
+<title>Catalogue Public - Assigame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link rel="stylesheet" href="/css/global.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/catalogue.html">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="9" rx="3"/><circle cx="8" cy="12.5" r="1.2" fill="#fff" stroke="none"/><circle cx="6" cy="14.2" r="1.2" fill="#fff" stroke="none"/><circle cx="16.5" cy="11.7" r="1" fill="#fff" stroke="none"/><circle cx="18" cy="13.3" r="1" fill="#fff" stroke="none"/></svg>
+      </div>
+      Assigame
+    </a>
+    <div class="search-quick">
+      <i class="ph ph-magnifying-glass"></i>
+      <input type="search" placeholder="Recherche rapide…" aria-label="Recherche rapide">
+    </div>
+    <nav class="main-nav" aria-label="Menu principal">
+      <a href="/catalogue.html" class="active" aria-current="page">Catalogue</a>
+      <a href="/admin/categories.html">Catégories</a>
+      <a href="/devenir-vendeur.html">Devenir vendeur</a>
+    </nav>
+    <div class="auth-actions">
+      <a class="link-plain" href="#">Connexion</a>
+      <button type="button" class="btn btn-primary">Inscription</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Trouvez les meilleurs produits</h1>
+  <p>Parcourez notre catalogue public proposé par des vendeurs vérifiés.</p>
+  <div class="hero-search">
+    <div class="hero-search-input">
+      <i class="ph ph-magnifying-glass"></i>
+      <input type="search" placeholder="Rechercher un produit, une marque, une catégorie…" aria-label="Recherche catalogue">
+    </div>
+    <button type="button" class="btn btn-primary">Rechercher</button>
+  </div>
+</section>
+
+<main class="page-wrap" role="main">
+  <div class="results-bar">
+    <span id="resultsCount">Chargement…</span>
+    <div class="sort-menu">
+      <button type="button" class="sort-control" id="sortControl">
+        Trier par : <strong id="sortLabel">Pertinence</strong>
+        <i class="ph ph-caret-down"></i>
+      </button>
+      <div class="sort-options" id="sortOptions">
+        <div class="sort-option selected">Pertinence</div>
+        <div class="sort-option">Prix croissant</div>
+        <div class="sort-option">Prix décroissant</div>
+        <div class="sort-option">Nouveautés</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="catalog-grid">
+    <aside class="filters" aria-label="Filtres">
+      <div class="filter-head">
+        <h2>Filtres</h2>
+        <button type="button" class="filter-reset" id="resetFilters">Réinitialiser</button>
+      </div>
+      <div class="filter-group" data-filter="category">
+        <h3>Catégories</h3>
+        <p class="filter-hint">Chargement…</p>
+      </div>
+      <div class="filter-group">
+        <h3>Prix (FCFA)</h3>
+        <div class="price-fields">
+          <input type="text" id="priceMin" placeholder="Min" inputmode="numeric">
+          <input type="text" id="priceMax" placeholder="Max" inputmode="numeric">
+        </div>
+        <button type="button" class="btn-apply" id="applyPrice">Appliquer</button>
+      </div>
+      <div class="filter-group" data-filter="stock">
+        <h3>Disponibilité</h3>
+        <label class="checkbox-row">
+          <span class="cb-label"><input type="checkbox" checked id="stockOnly"> En stock uniquement</span>
+        </label>
+      </div>
+    </aside>
+
+    <div class="products-area">
+      <div class="products-grid" id="productsGrid"></div>
+      <div class="pagination" aria-label="Pagination">
+        <button type="button" class="page-btn" aria-label="Page précédente"><i class="ph ph-caret-left"></i></button>
+        <button type="button" class="page-btn active">1</button>
+        <button type="button" class="page-btn" aria-label="Page suivante"><i class="ph ph-caret-right"></i></button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <span>Assigame &copy; 2026. Tous droits réservés.</span>
+  <div class="footer-links">
+    <a href="#">Conditions Générales</a>
+    <a href="#">Politique de Confidentialité</a>
+    <a href="#">Contact</a>
+    <a href="#">Aide</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/catalogue.js"></script>
+</body>
+</html>
