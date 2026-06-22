@@ -3,6 +3,7 @@ package com.esgis2026.assigame.exception;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -39,6 +40,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleUserNotFound(UsernameNotFoundException ex) {
         return error(HttpStatus.UNAUTHORIZED, "Email ou mot de passe incorrect");
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleDataIntegrity(DataIntegrityViolationException ex) {
+        String raw = ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() : ex.getMessage();
+        if (raw != null && raw.contains("value too long")) {
+            return error(HttpStatus.BAD_REQUEST, "Un champ est trop long (description ou images). Réduisez le texte ou contactez l'administrateur.");
+        }
+        return error(HttpStatus.BAD_REQUEST, "Données invalides pour l'enregistrement.");
     }
 
     @ExceptionHandler(RuntimeException.class)

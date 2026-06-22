@@ -19,6 +19,9 @@ public interface ProduitRepository extends JpaRepository<Produit, Long> {
     @Query("SELECT p FROM Produit p WHERE p.nom_produit = ?1")
     Optional<Produit> findByNom_produit(String nom_produit);
 
+    @Query("SELECT p FROM Produit p WHERE p.nom_produit = ?1 AND p.id_utilisateur.id_utilisateur = ?2")
+    Optional<Produit> findByNomAndVendeur(String nom_produit, Long id_utilisateur);
+
     @Query("SELECT p FROM Produit p WHERE p.statut = ?1 ORDER BY p.date_ajout DESC")
     List<Produit> findByStatut(String statut);
 

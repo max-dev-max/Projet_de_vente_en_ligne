@@ -1,10 +1,14 @@
 package com.esgis2026.assigame.controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.esgis2026.assigame.entity.Produit;
+import com.esgis2026.assigame.service.FileStorageService;
 import com.esgis2026.assigame.service.ProduitService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -16,9 +20,22 @@ import java.util.Optional;
 public class ProduitController {
 
     private final ProduitService produitService;
+    private final FileStorageService fileStorageService;
 
-    public ProduitController(ProduitService produitService) {
+    public ProduitController(ProduitService produitService, FileStorageService fileStorageService) {
         this.produitService = produitService;
+        this.fileStorageService = fileStorageService;
+    }
+
+    /**
+     * Upload des photos d'un produit (4 à 6). Réservé aux vendeurs et admin.
+     * @param files Les fichiers images.
+     * @return Les chemins publics des fichiers enregistrés.
+     */
+    @PostMapping("/upload")
+    public Map<String, List<String>> uploadImages(@RequestParam("files") MultipartFile[] files) {
+        List<String> urls = fileStorageService.stockerPlusieurs(files);
+        return Map.of("urls", urls);
     }
 
     /**

@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var submitBtn = document.getElementById('btnLogin');
   var VENDOR_SPACE = '/vendeur/dashboard.html';
 
-  function isVendeurRole(role) {
-    return role && role !== 'ADMIN';
+  function isAdminRole(role) {
+    return role === 'ADMIN';
   }
 
   function showError(message) {
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function redirectIfAlreadyLoggedIn() {
     var user = AssigameAPI.getUser();
-    if (user && AssigameAPI.getToken() && isVendeurRole(user.role)) {
+    if (user && AssigameAPI.getToken() && !isAdminRole(user.role)) {
       window.location.href = VENDOR_SPACE;
     }
   }
@@ -45,15 +45,23 @@ document.addEventListener('DOMContentLoaded', function () {
     AssigameAPI.login(email, password)
       .then(function (res) {
         var user = res.utilisateur || res.user || AssigameAPI.getUser();
-        if (!user || !isVendeurRole(user.role)) {
+        if (!user) {
           AssigameAPI.logout();
-          showError('Ce compte n\'est pas un compte vendeur.');
+          showError('Connexion OK mais profil introuvable.');
+          return;
+        }
+        if (isAdminRole(user.role)) {
+          AssigameAPI.logout();
+          showError('Ce compte est un compte admin.');
           return;
         }
         window.location.href = VENDOR_SPACE;
       })
       .catch(function (err) {
-        showError(err.message || 'Connexion impossible. Vérifiez vos identifiants.');
+        // Back-end peut renvoyer { message: "..." } via GlobalExceptionHandler
+        var msg = (err && err.data && err.data.message) ? err.data.message : (err && err.message) ? err.message : null;
+        showError(msg || 'Connexion impossible. Vérifiez vos identifiants.');
+        if (console && console.error) console.error(err);
       })
       .finally(function () {
         if (submitBtn) {

@@ -2,8 +2,10 @@
 // script.js — page "Ajouter un produit"
 // ============================================
 
-const MAX_FILES = 5;
+const MIN_FILES = 4;
+const MAX_FILES = 6;
 const MAX_SIZE_MB = 5;
+const MAX_DESCRIPTION_LENGTH = 2000;
 const ALLOWED_TYPES = ["image/svg+xml", "image/png", "image/jpeg", "image/gif"];
 
 // ===== 1. Éléments du DOM =====
@@ -169,6 +171,12 @@ function validateForm() {
     }
   });
 
+  if (fieldDescription.value.trim().length > MAX_DESCRIPTION_LENGTH) {
+    fieldDescription.classList.add("invalid");
+    notify(`La description ne peut pas dépasser ${MAX_DESCRIPTION_LENGTH} caractères.`);
+    return false;
+  }
+
   return isValid;
 }
 
@@ -195,13 +203,79 @@ btnDraft.addEventListener("click", () => {
   markSaved("Brouillon enregistré");
 });
 
-btnPublish.addEventListener("click", () => {
+function notify(message) {
+  if (window.AssigameUtils && AssigameUtils.showToast) {
+    AssigameUtils.showToast(message);
+  } else {
+    alert(message);
+  }
+}
+
+btnPublish.addEventListener("click", async () => {
   if (!validateForm()) {
-    alert("Merci de remplir tous les champs obligatoires avant de publier.");
+    notify("Merci de remplir tous les champs obligatoires avant de publier.");
     return;
   }
-  markSaved("Produit publié avec succès");
+  if (uploadedFiles.length < MIN_FILES || uploadedFiles.length > MAX_FILES) {
+    notify(`Vous devez ajouter entre ${MIN_FILES} et ${MAX_FILES} photos (actuellement ${uploadedFiles.length}).`);
+    return;
+  }
+
+  const categoryId = parseInt(fieldCategory.value, 10);
+  if (isNaN(categoryId)) {
+    notify("Veuillez sélectionner une catégorie valide.");
+    return;
+  }
+
+  btnPublish.disabled = true;
+
+  try {
+    const files = uploadedFiles.map((item) => item.file);
+    const urls = await AssigameAPI.uploadProduitImages(files);
+    if (!urls || urls.length < MIN_FILES) {
+      throw new Error("L'upload des images a échoué.");
+    }
+
+    await AssigameAPI.createProduit({
+      nom_produit: fieldName.value.trim(),
+      description: fieldDescription.value.trim(),
+      prix: parseFloat(fieldPrice.value) || 0,
+      idcategorie_produit: { idcategorie_produit: categoryId },
+      image: urls.join(",")
+    });
+
+    markSaved("Produit enregistré avec succès");
+    notify("Produit envoyé — en attente de validation par l'administrateur.");
+
+    productForm.reset();
+    uploadedFiles.forEach((item) => URL.revokeObjectURL(item.url));
+    uploadedFiles = [];
+    renderThumbs();
+  } catch (err) {
+    notify(err.message || "Impossible de publier le produit.");
+  } finally {
+    btnPublish.disabled = false;
+  }
 });
 
-// ===== 9. Initialisation =====
+// ===== 9. Chargement des catégories =====
+async function loadCategories() {
+  if (!fieldCategory) return;
+  try {
+    const categories = await AssigameAPI.getCategories();
+    if (categories && categories.length) {
+      categories.forEach((cat) => {
+        const opt = document.createElement("option");
+        opt.value = cat.idcategorie_produit;
+        opt.textContent = cat.nom_categorieproduit;
+        fieldCategory.appendChild(opt);
+      });
+    }
+  } catch (e) {
+    notify("Impossible de charger les catégories.");
+  }
+}
+
+// ===== 10. Initialisation =====
 renderThumbs();
+loadCategories();

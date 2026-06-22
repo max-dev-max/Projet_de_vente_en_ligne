@@ -1,6 +1,6 @@
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Outfit', sans-serif;
   background-color: #eef1f8;
   color: #333;
   min-height: 100vh;
@@ -19,8 +19,9 @@ body {
  
 /* ===== LOGO ===== */
 .logo {
+  font-family: 'Syne', sans-serif;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
   color: #1a56db;
   margin-bottom: 20px;
   letter-spacing: 0.5px;

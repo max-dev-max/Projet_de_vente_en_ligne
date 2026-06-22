@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   function renderProductCard(produit) {
     var catName = produit.idcategorie_produit && produit.idcategorie_produit.nom_categorieproduit
       ? produit.idcategorie_produit.nom_categorieproduit : 'Général';
-    var img = produit.image || AssigameUtils.placeholderImage();
+    var img = (produit.image ? produit.image.split(',')[0].trim() : '') || AssigameUtils.placeholderImage();
     var price = AssigameUtils.formatPriceFCFA(produit.prix);
     var id = produit.id_produit;
 

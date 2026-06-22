@@ -99,6 +99,33 @@
     },
 
     /* ---- Vendeur ---- */
+    uploadProduitImages: function (files) {
+      var formData = new FormData();
+      Array.prototype.forEach.call(files, function (file) {
+        formData.append('files', file);
+      });
+      var token = getToken();
+      var headers = {};
+      if (token) headers.Authorization = 'Bearer ' + token;
+      return fetch(API_BASE + '/api/produits/upload', {
+        method: 'POST',
+        headers: headers,
+        body: formData
+      }).then(function (response) {
+        return response.text().then(function (text) {
+          var data = null;
+          if (text) { try { data = JSON.parse(text); } catch (e) { data = text; } }
+          if (!response.ok) {
+            var message = (data && data.message) ? data.message : 'Échec de l\'upload des images';
+            var err = new Error(message);
+            err.status = response.status;
+            err.data = data;
+            throw err;
+          }
+          return (data && data.urls) ? data.urls : [];
+        });
+      });
+    },
     createProduit: function (payload) {
       return request('/api/produits/create', { method: 'POST', body: payload });
     },

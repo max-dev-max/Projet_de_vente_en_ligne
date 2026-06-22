@@ -11,6 +11,21 @@ document.addEventListener('DOMContentLoaded', async function () {
   var descText = document.querySelector('.desc-text');
   var breadcrumbCurrent = document.querySelector('.breadcrumb .current');
   var similarGrid = document.getElementById('similarGrid');
+  var thumbRow = document.querySelector('.thumb-row');
+
+  function parseImages(imageCsv) {
+    if (!imageCsv) return [];
+    return imageCsv.split(',').map(function (s) { return s.trim(); }).filter(function (s) { return s; });
+  }
+
+  function renderGallery(images, altText) {
+    if (!thumbRow) return;
+    if (!images.length) return;
+    thumbRow.innerHTML = images.map(function (src, index) {
+      return '<button type="button" class="thumb' + (index === 0 ? ' active' : '') +
+        '" data-full="' + src + '"><img src="' + src + '" alt="' + (altText || '') + ' ' + (index + 1) + '"></button>';
+    }).join('');
+  }
 
   function bindGallery() {
     var thumbs = document.querySelectorAll('.thumb:not(.placeholder)');
@@ -66,10 +81,12 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (priceOld) priceOld.style.display = 'none';
       if (productSubtitle) productSubtitle.textContent = produit.description || '';
       if (descText) descText.innerHTML = '<p>' + (produit.description || 'Aucune description.') + '</p>';
+      var images = parseImages(produit.image);
       if (mainImage) {
-        mainImage.src = produit.image || AssigameUtils.placeholderImage();
+        mainImage.src = images[0] || AssigameUtils.placeholderImage();
         mainImage.alt = produit.nom_produit || '';
       }
+      renderGallery(images, produit.nom_produit || '');
       if (breadcrumbCurrent) breadcrumbCurrent.textContent = produit.nom_produit || 'Produit';
       document.title = (produit.nom_produit || 'Produit') + ' - Assigame';
 
@@ -106,7 +123,7 @@ document.addEventListener('DOMContentLoaded', async function () {
           '<a class="similar-card" href="/fiche-produit.html?id=' + p.id_produit + '">' +
             '<div class="similar-media">' +
               '<span class="similar-tag">' + (p.idcategorie_produit ? p.idcategorie_produit.nom_categorieproduit : '') + '</span>' +
-              '<img src="' + (p.image || AssigameUtils.placeholderImage()) + '" alt="' + p.nom_produit + '">' +
+              '<img src="' + ((p.image ? p.image.split(',')[0].trim() : '') || AssigameUtils.placeholderImage()) + '" alt="' + p.nom_produit + '">' +
             '</div>' +
             '<div class="similar-body">' +
               '<p class="similar-title">' + p.nom_produit + '</p>' +

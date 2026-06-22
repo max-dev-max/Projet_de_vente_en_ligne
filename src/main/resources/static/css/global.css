@@ -42,8 +42,9 @@
   --radius-btn: 40px;
   
   /* Typographie */
-  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-ui-tight: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-ui: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-ui-tight: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-brand: "Syne", sans-serif;
 }
 
 /* ---- Reset de base ---- */
@@ -158,7 +159,8 @@ header.site-header {
   display: flex;
   align-items: center;
   gap: 9px;
-  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
   font-size: 18px;
   color: var(--navy-900);
   letter-spacing: -0.01em;
@@ -379,7 +381,7 @@ footer.site-footer {
   flex-shrink:0;
 }
 .brand-mark svg{width:18px;height:18px;stroke:#fff;}
-.brand-name{font-weight:700;font-size:17px;color:#fff;letter-spacing:-0.01em;}
+.brand-name{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:#fff;letter-spacing:-0.01em;}
 
 .sidebar-context{
   display:flex;align-items:center;gap:10px;
@@ -498,24 +500,206 @@ td{padding:15px 24px;vertical-align:middle;color:var(--slate-700);}
    ASSIGAME — catalogue_public.css
    ========================================================= */
 
+body.catalogue-body {
+  background-image: url('../images/hero-bg-clean.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #333;
+}
+
+body.catalogue-body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
+}
+
+/* ---- Animation d'apparition de la page (au chargement) ---- */
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes page-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body.catalogue-body {
+    animation: page-fade-in 1.4s ease both;
+  }
+  .site-header {
+    animation: page-rise 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+  .hero-content {
+    animation: page-fade-in 2s ease 0.3s both;
+  }
+  .catalog-page.page-wrap {
+    animation: page-rise 1.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+  }
+}
+
 /* ---- Hero ---- */
-.hero{
-  background:linear-gradient(180deg, #FBFCFE 0%, var(--slate-50) 100%);
-  border-bottom:1px solid var(--slate-200);
-  padding:56px 32px 40px;text-align:center;
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin-top: -100px; /* Pull up under the sticky header */
+  padding-top: 100px; /* Push content down to avoid overlapping header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: transparent;
 }
-.hero h1{font-size:34px;font-weight:700;letter-spacing:-0.02em;margin:0 0 12px;color:var(--slate-900);}
-.hero p{margin:0 0 28px;color:var(--slate-500);font-size:15.5px;}
-.hero-search{
-  max-width:680px;margin:0 auto;display:flex;background:#fff;
-  border:1px solid var(--slate-200);border-radius:12px;
-  box-shadow:0 4px 14px rgba(20,30,60,0.06);padding:6px;gap:6px;
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 800px;
 }
-.hero-search-input{flex:1;display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--slate-400);font-size:14.5px;}
-.hero-search-input i{font-size:18px;}
-.hero-search-input input{border:none;outline:none;background:none;font-family:inherit;font-size:14.5px;color:var(--slate-900);width:100%;}
-.hero-search-input input::placeholder{color:var(--slate-400);}
-.hero-search .btn-primary{padding:11px 26px;border-radius:var(--radius-btn);}
+
+.hero-brand-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(80px, 12vw, 180px);
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* Disparition moderne au défilement : "assigame" se dissout sur place.
+   Il s'agrandit légèrement, se floute, les lettres s'écartent puis fondu total.
+   Aucun déplacement vers le haut. */
+@keyframes brand-dissolve {
+  from {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+    letter-spacing: 0;
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+    filter: blur(26px);
+    letter-spacing: -0.2em;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .hero-brand-title {
+      will-change: opacity, transform, filter;
+      animation: brand-dissolve linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 45vh;
+    }
+  }
+}
+
+.hero-search-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-search-block h2 {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 12px;
+}
+
+.hero-search-block p {
+  font-size: clamp(16px, 2vw, 18px);
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 32px;
+}
+
+.hero-search.frosted-glass {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 40px;
+  padding: 6px;
+  gap: 6px;
+}
+
+.hero-search-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.hero-search-input i {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-search-input input {
+  border: none;
+  outline: none;
+  background: none;
+  font-family: inherit;
+  font-size: 15px;
+  color: #ffffff;
+  width: 100%;
+}
+
+.hero-search-input input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hero-search.frosted-glass .btn-primary {
+  padding: 11px 26px;
+  border-radius: var(--radius-btn);
+  /* Optional: make button stand out more */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ---- Animations au défilement (scroll-driven) ----
+   Les cartes et sections apparaissent en fondu + glissement quand elles
+   entrent dans la fenêtre. Protégé par @supports pour ne rien casser sur
+   les navigateurs qui ne gèrent pas animation-timeline. */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .product-card,
+    .filters,
+    .results-bar,
+    .pagination {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+  }
+}
 
 /* ---- Layout principal ---- */
 .page-wrap{max-width:1240px;margin:0 auto;padding:32px 32px 64px;}
@@ -527,6 +711,9 @@ td{padding:15px 24px;vertical-align:middle;color:var(--slate-700);}
   margin:0;
   padding:32px clamp(20px, 3vw, 48px) 64px;
   box-sizing:border-box;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;color:var(--slate-500);font-size:14px;flex-wrap:wrap;gap:12px;}
@@ -1029,7 +1216,7 @@ td{padding:15px 24px;vertical-align:middle;color:var(--slate-700);}
   --radius-pill: 9999px;
 
   /* Typography */
-  --font-base: 'Inter', sans-serif;
+  --font-base: 'Outfit', sans-serif;
   
   /* Layout */
   --sidebar-width: 280px;
@@ -1222,7 +1409,8 @@ a:hover { text-decoration: underline; }
   align-items: center;
   padding: 0 24px;
   border-bottom: 1px solid var(--border);
-  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
   font-size: 18px;
   color: var(--primary);
 }
@@ -1343,7 +1531,7 @@ a:hover { text-decoration: underline; }
   background: var(--bg-surface); border-bottom: 1px solid var(--border);
   padding: 16px 32px; display: flex; align-items: center; justify-content: space-between;
 }
-.vendeur-brand { font-weight: 700; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+.vendeur-brand { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
 .vendeur-step { color: var(--text-sub); }
 .vendeur-step-main { max-width: 1000px; margin: 60px auto; padding: 0 24px; }
 .vendeur-step-intro { text-align: center; margin-bottom: 48px; }
@@ -1362,6 +1550,130 @@ a:hover { text-decoration: underline; }
 .pricing-features { list-style: none; padding: 0; margin: 0 0 32px; flex: 1; }
 .pricing-features li { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--text-sub); }
 .pricing-features i { color: var(--success-text); }
+
+/* ---- Page choix offre vendeur (inscription étape 1) ---- */
+.choix-offre-body { background: var(--slate-50); }
+.choix-offre-page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 48px 32px 64px;
+}
+.choix-offre-intro {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.choix-offre-intro h1 {
+  font-family: var(--font-brand);
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  color: var(--slate-900);
+}
+.choix-offre-intro p {
+  margin: 0 auto;
+  max-width: 620px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--slate-500);
+}
+.choix-offre-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+.choix-offre-card { padding: 32px 28px 28px; }
+.choix-offre-tagline {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--slate-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.choix-offre-desc {
+  margin: 0;
+  font-size: 14px;
+  color: var(--slate-500);
+  line-height: 1.5;
+}
+.choix-offre-features--green i { color: var(--green-600); }
+.choix-offre-features--blue i { color: var(--blue-600); }
+.choix-offre-features--purple i { color: #7C3AED; }
+.choix-offre-trust {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 56px;
+  padding: 28px 32px;
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+}
+.choix-offre-trust-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.choix-offre-trust-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--blue-50);
+  color: var(--blue-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 22px;
+}
+.choix-offre-trust-item strong {
+  display: block;
+  font-size: 14px;
+  color: var(--slate-900);
+  margin-bottom: 4px;
+}
+.choix-offre-trust-item p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--slate-500);
+  line-height: 1.45;
+}
+.selected-plan-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  margin-bottom: 22px;
+  background: var(--blue-50);
+  border: 1px solid #C7D7FE;
+  border-radius: 12px;
+}
+.selected-plan-banner strong { color: var(--navy-800); font-size: 15px; }
+.selected-plan-banner span { color: var(--slate-600); font-size: 13px; }
+.selected-plan-change {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue-600);
+}
+.selected-plan-change:hover { text-decoration: underline; }
+.inscription-step {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--slate-500);
+  margin-bottom: 8px;
+}
+@media (max-width: 980px) {
+  .choix-offre-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .choix-offre-trust { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .choix-offre-page { padding: 32px 16px 48px; }
+}
+
 .vendeur-payment-container { max-width: 600px; }
 .vendeur-payment-head { text-align: center; margin-bottom: 32px; }
 .vendeur-payment-head i { font-size: 48px; color: var(--primary); }

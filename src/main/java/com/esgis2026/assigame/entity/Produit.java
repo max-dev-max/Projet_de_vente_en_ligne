@@ -53,7 +53,7 @@ public class Produit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_produit;
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String nom_produit;
 
     @Override
@@ -63,14 +63,14 @@ public class Produit {
                 + ", idcategorie_produit=" + idcategorie_produit + ", id_utilisateur=" + id_utilisateur + "]";
     }
 
-    @Column(unique = false, nullable = true, length = 100)
+    @Column(unique = false, nullable = true, columnDefinition = "TEXT")
     private String description;
 
     @Column(unique = false, nullable = true, length = 10)
     private double prix;
 
-    /** URL ou chemin de l'image du produit */
-    @Column()
+    /** Chemins des images du produit (4 à 6), séparés par des virgules (CSV) */
+    @Column(columnDefinition = "TEXT")
     private String image;
 
     /** Rempli automatiquement à la création via @PrePersist */

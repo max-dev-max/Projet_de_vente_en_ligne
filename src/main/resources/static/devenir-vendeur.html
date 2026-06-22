@@ -7,7 +7,7 @@
 <title>Devenir Vendeur - Assigame</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 <link rel="stylesheet" href="/css/global.css">
 </head>
@@ -33,9 +33,10 @@
 </header>
 
 <main class="page-wrap devenir-page" role="main">
+  <p class="inscription-step" id="inscriptionStep">Étape 1 sur 3 — Création du compte</p>
   <div class="intro">
     <h1>Devenez Vendeur Partenaire</h1>
-    <p>Rejoignez notre marketplace et touchez des milliers de clients.</p>
+    <p>Complétez vos informations pour commencer votre inscription.</p>
   </div>
 
   <form id="sellerForm" novalidate>
@@ -70,13 +71,6 @@
             <label class="radio-option"><input type="radio" name="sexe" value="Femme"> Femme</label>
           </div>
         </div>
-        <div class="field full">
-          <label for="typeVendeur">Type de vendeur <span class="req">*</span></label>
-          <select id="typeVendeur" name="typeVendeur" required>
-            <option value="">Chargement…</option>
-          </select>
-          <span class="field-error-msg">Sélectionnez un type</span>
-        </div>
       </div>
     </div>
 
@@ -96,8 +90,8 @@
       </div>
       <div class="form-actions">
         <button type="button" class="btn-draft" id="draftBtn">Enregistrer le brouillon</button>
-        <button type="submit" class="btn-continue">
-          Soumettre ma demande <i class="ph ph-arrow-right"></i>
+        <button type="button" class="btn-continue" id="choosePlanBtn">
+          Choisir l'offre d'abonnement <i class="ph ph-arrow-right"></i>
         </button>
       </div>
     </div>

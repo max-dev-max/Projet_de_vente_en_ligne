@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Choisissez votre offre vendeur sur Assigame — Particulier, Professionnel ou Partenaire VIP.">
+<title>Choisissez votre offre vendeur - Assigame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link rel="stylesheet" href="/css/global.css">
+</head>
+<body class="choix-offre-body">
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/catalogue.html">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="9" rx="3"/><circle cx="8" cy="12.5" r="1.2" fill="#fff" stroke="none"/><circle cx="6" cy="14.2" r="1.2" fill="#fff" stroke="none"/><circle cx="16.5" cy="11.7" r="1" fill="#fff" stroke="none"/><circle cx="18" cy="13.3" r="1" fill="#fff" stroke="none"/></svg>
+      </div>
+      Assigame
+    </a>
+    <nav class="main-nav" aria-label="Menu principal">
+      <a href="/catalogue.html">Catalogue</a>
+      <a href="/devenir-vendeur.html">Devenir vendeur</a>
+    </nav>
+    <div class="auth-actions">
+      <a class="link-plain" href="/connexion-vendeur.html">Connexion</a>
+      <a class="btn btn-primary" href="/devenir-vendeur.html">Inscription</a>
+    </div>
+  </div>
+</header>
+
+<main class="choix-offre-page" role="main">
+  <p class="inscription-step">Étape 2 sur 3 — Choix de l'offre</p>
+  <div class="choix-offre-intro">
+    <h1>Choisissez votre offre vendeur</h1>
+    <p>Rejoignez notre communauté de vendeurs et développez votre activité. Sélectionnez l'offre qui correspond le mieux à vos ambitions.</p>
+  </div>
+
+  <div class="pricing-grid choix-offre-grid" id="pricingGrid">
+    <p class="catalog-loading">Chargement des offres…</p>
+  </div>
+
+  <section class="choix-offre-trust" aria-label="Avantages Assigame">
+    <div class="choix-offre-trust-item">
+      <div class="choix-offre-trust-icon"><i class="ph ph-shield-check"></i></div>
+      <div>
+        <strong>Paiements Sécurisés</strong>
+        <p>Transactions protégées et conformes aux standards.</p>
+      </div>
+    </div>
+    <div class="choix-offre-trust-item">
+      <div class="choix-offre-trust-icon"><i class="ph ph-rocket-launch"></i></div>
+      <div>
+        <strong>Mise en ligne Rapide</strong>
+        <p>Publiez vos produits en quelques minutes.</p>
+      </div>
+    </div>
+    <div class="choix-offre-trust-item">
+      <div class="choix-offre-trust-icon"><i class="ph ph-headset"></i></div>
+      <div>
+        <strong>Assistance 24/7</strong>
+        <p>Une équipe dédiée pour vous accompagner.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span>Assigame &copy; 2026. Tous droits réservés.</span>
+  <div class="footer-links">
+    <a href="#">Conditions Générales</a>
+    <a href="#">Politique de Confidentialité</a>
+    <a href="#">Contact</a>
+    <a href="#">Aide</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+<script src="/js/api.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/choix-offre-vendeur.js"></script>
+</body>
+</html>

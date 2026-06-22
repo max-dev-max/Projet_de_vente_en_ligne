@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Administration - Ajouter un produit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/vendeur/produits-ajout.css">
 </head>
 <body>
@@ -40,28 +41,6 @@
             </span>
             <span>Dashboard</span>
           </li> </a>
-          <li class="nav-item">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1Z"/>
-                <rect x="5" y="4" width="14" height="17" rx="2"/>
-                <path d="M9 11h6"/>
-                <path d="M9 15h6"/>
-              </svg>
-            </span>
-            <span>Demandes</span>
-          </li>
-          <li class="nav-item">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-            </span>
-            <span>Vendeurs</span>
-          </li>
           <li class="nav-item active">
             <span class="nav-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -71,25 +50,6 @@
               </svg>
             </span>
             <span>Produits</span>
-          </li>
-          <li class="nav-item">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42Z"/>
-                <circle cx="7.5" cy="7.5" r="1.5"/>
-              </svg>
-            </span>
-            <span>Catégories</span>
-          </li>
-          <li class="nav-item">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 3h12l4 6-10 12L2 9Z"/>
-                <path d="M11 3 8 9l4 12 4-12-3-6"/>
-                <path d="M2 9h20"/>
-              </svg>
-            </span>
-            <span>Types</span>
           </li>
         </ul>
       </nav>
@@ -176,7 +136,7 @@
 
               <div class="form-group">
                 <label for="productDescription">Description <span class="required">*</span></label>
-                <textarea id="productDescription" name="productDescription" rows="4" placeholder="Décrivez les caractéristiques, l'état et les avantages du produit..."></textarea>
+                <textarea id="productDescription" name="productDescription" rows="4" maxlength="2000" placeholder="Décrivez les caractéristiques, l'état et les avantages du produit..."></textarea>
               </div>
 
               <div class="form-row">
@@ -210,7 +170,7 @@
                 </svg>
               </span>
               <h3>Médias</h3>
-              <span class="media-count" id="mediaCount">0 / 5</span>
+              <span class="media-count" id="mediaCount">0 / 6</span>
             </div>
 
             <label for="fileInput" class="dropzone" id="dropzone">
@@ -223,7 +183,7 @@
                 </svg>
               </span>
               <span class="dropzone-text">Cliquez ou glissez-déposez</span>
-              <span class="dropzone-hint">SVG, PNG, JPG ou GIF (max. 5MB)</span>
+              <span class="dropzone-hint">4 à 6 photos — SVG, PNG, JPG ou GIF (max. 5MB chacune)</span>
             </label>
 
             <div class="media-thumbs" id="mediaThumbs">
@@ -264,7 +224,10 @@
 
   </div>
 
-  <!-- Le JS sera relié ici à l'étape 3 -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/utils.js"></script>
   <script src="/js/vendeur/produits-ajout.js" defer></script>
 
 </body>

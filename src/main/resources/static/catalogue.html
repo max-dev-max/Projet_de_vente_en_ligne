@@ -7,11 +7,11 @@
 <title>Catalogue Public - Assigame</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 <link rel="stylesheet" href="/css/global.css">
 </head>
-<body>
+<body class="catalogue-body">
 
 <header class="site-header">
   <div class="header-inner">
@@ -33,14 +33,19 @@
 </header>
 
 <section class="hero">
-  <h1>Trouvez les meilleurs produits</h1>
-  <p>Parcourez notre catalogue public proposé par des vendeurs vérifiés.</p>
-  <div class="hero-search">
-    <div class="hero-search-input">
-      <i class="ph ph-magnifying-glass"></i>
-      <input type="search" placeholder="Rechercher un produit, une marque, une catégorie…" aria-label="Recherche catalogue">
+  <div class="hero-content">
+    <h1 class="hero-brand-title">assigame</h1>
+    <div class="hero-search-block">
+      <h2>Trouvez les meilleurs produits</h2>
+      <p>Parcourez notre catalogue public proposé par des vendeurs vérifiés.</p>
+      <div class="hero-search frosted-glass">
+        <div class="hero-search-input">
+          <i class="ph ph-magnifying-glass"></i>
+          <input type="search" placeholder="Rechercher un produit, une marque, une catégorie…" aria-label="Recherche catalogue">
+        </div>
+        <button type="button" class="btn btn-primary">Rechercher</button>
+      </div>
     </div>
-    <button type="button" class="btn btn-primary">Rechercher</button>
   </div>
 </section>
 

@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Outfit', sans-serif;
   background-color: #eef1f8;
   color: #333;
   min-height: 100vh;
@@ -43,8 +43,9 @@ body {
 }
 
 .logo-text {
+  font-family: 'Syne', sans-serif;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   color: #1a1a1a;
 }
 
@@ -75,6 +76,18 @@ body {
 }
 
 /* ===== FORM ===== */
+/* ===== FORM ===== */
+.form-error {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
 .form-group {
   margin-bottom: 16px;
 }
