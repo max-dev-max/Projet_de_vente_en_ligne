@@ -20,41 +20,14 @@
       <p>Sélectionnez l'abonnement adapté à votre activité.</p>
     </div>
 
-    <div class="pricing-grid">
-      <div class="card pricing-card">
-        <div class="pricing-header">
-          <h2>Démarrage</h2>
-          <div class="pricing-price">0 FCFA<span>/mois</span></div>
-          <p>Idéal pour tester le marché</p>
-        </div>
-        <ul class="pricing-features">
-          <li><i class="ph ph-check-circle"></i> Commission 15 % par vente</li>
-          <li><i class="ph ph-check-circle"></i> Jusqu'à 50 produits</li>
-          <li><i class="ph ph-check-circle"></i> Support par email</li>
-        </ul>
-        <a href="/vendeur/paiement.html?plan=demarrage" class="btn btn-secondary w-100">Sélectionner</a>
-      </div>
-
-      <div class="card pricing-card pricing-card--featured">
-        <div class="pricing-badge">Le plus populaire</div>
-        <div class="pricing-header">
-          <h2>Professionnel</h2>
-          <div class="pricing-price">19 000 FCFA<span>/mois</span></div>
-          <p>Pour les vendeurs établis</p>
-        </div>
-        <ul class="pricing-features">
-          <li><i class="ph ph-check-circle"></i> Commission réduite à 8 %</li>
-          <li><i class="ph ph-check-circle"></i> Produits illimités</li>
-          <li><i class="ph ph-check-circle"></i> Mise en avant catalogue</li>
-          <li><i class="ph ph-check-circle"></i> Support prioritaire</li>
-        </ul>
-        <a href="/vendeur/paiement.html?plan=pro" class="btn btn-primary w-100">Sélectionner</a>
-      </div>
+    <div class="pricing-grid" id="pricingGrid">
+      <p class="catalog-loading">Chargement des offres…</p>
     </div>
   </main>
 
   <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
   <script src="/js/api.js"></script>
   <script src="/js/utils.js"></script>
+  <script src="/js/vendeur/offres-paiement.js"></script>
 </body>
 </html>

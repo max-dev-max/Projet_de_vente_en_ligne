@@ -1,0 +1,433 @@
+/* ============================================
+   style.css — dashboard vendeur
+   ============================================ */
+
+/* ===== 1. Variables & reset ===== */
+:root {
+  --color-primary: #4338ca;
+  --color-primary-light: #eef2ff;
+  --color-bg: #f5f6fa;
+  --color-white: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-success: #16a34a;
+  --color-success-bg: #dcfce7;
+  --color-warning: #d97706;
+  --color-warning-bg: #fef3c7;
+  --color-danger: #dc2626;
+  --color-danger-bg: #fee2e2;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+ul { list-style: none; }
+
+/* ===== 2. Layout général ===== */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* évite que le contenu déborde dans une flexbox */
+}
+
+/* ===== 3. Sidebar ===== */
+.sidebar {
+  width: 240px;
+  background: var(--color-white);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 20px;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.nav-menu { flex: 1; padding: 8px 12px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-item:hover { background: var(--color-bg); }
+
+.nav-item.active {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.sidebar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.admin-profile { display: flex; align-items: center; gap: 10px; }
+
+.avatar { width: 36px; height: 36px; border-radius: 50%; }
+
+.admin-info { display: flex; flex-direction: column; }
+
+.admin-name { font-size: 13px; font-weight: 600; }
+
+.admin-email { font-size: 12px; color: var(--color-text-muted); }
+
+.logout-icon { cursor: pointer; }
+
+/* ===== 4. Topbar ===== */
+.topbar {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar h1 { font-size: 20px; }
+
+.topbar-actions { display: flex; gap: 16px; font-size: 18px; }
+
+.icon-btn { cursor: pointer; }
+
+/* ===== 5. Corps du dashboard ===== */
+.dashboard-body {
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Bandeau Aperçu Vendeur */
+.overview-banner {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overview-banner h2 { font-size: 18px; margin-bottom: 4px; }
+
+.overview-banner p { font-size: 13px; color: var(--color-text-muted); }
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover { opacity: 0.9; }
+
+/* ===== 6. Cartes statistiques ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.stat-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.stat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+/* ===== 10. Icônes SVG ===== */
+.logo-icon,
+.nav-icon,
+.icon-btn,
+.logout-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-icon svg,
+.nav-icon svg,
+.icon-btn svg,
+.logout-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary);
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  color: inherit; /* suit la couleur du texte (gris, ou blanc si actif) */
+}
+
+.icon-btn {
+  width: 20px;
+  height: 20px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.logout-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.stat-icon.success { background: var(--color-success-bg); color: var(--color-success); }
+.stat-icon.warning  { background: var(--color-warning-bg); color: var(--color-warning); }
+.stat-icon.danger   { background: var(--color-danger-bg); color: var(--color-danger); }
+.stat-icon.muted    { background: #f3f4f6; color: var(--color-text-muted); }
+
+.stat-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+.stat-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.stat-badge.success { color: var(--color-success); background: var(--color-success-bg); }
+.stat-badge.neutral  { color: var(--color-text-muted); background: #f3f4f6; }
+.stat-badge.danger   { color: var(--color-danger); background: var(--color-danger-bg); }
+
+.stat-label { font-size: 13px; color: var(--color-text-muted); margin-bottom: 6px; }
+
+.stat-value { font-size: 24px; font-weight: 700; }
+
+/* ===== 7. Graphique + Activités ===== */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.chart-card, .activity-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.chart-header h3, .activity-card h3 { font-size: 15px; }
+
+.period-select {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+
+/* ===== 8. Liste des activités ===== */
+.activity-list { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+
+.activity-item { display: flex; gap: 10px; }
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.dot.green { background: var(--color-success); }
+.dot.blue  { background: #2563eb; }
+.dot.red   { background: var(--color-danger); }
+.dot.grey  { background: #9ca3af; }
+
+.activity-title { font-size: 13px; font-weight: 600; }
+
+.activity-desc { font-size: 12px; color: var(--color-text-muted); margin: 2px 0 4px; }
+
+.activity-time { font-size: 11px; color: #9ca3af; }
+
+.chart-area-wrapper {
+  display: flex;
+  gap: 14px;
+}
+
+.y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
+  padding-bottom: 26px; /* aligne avec l'espace pris par les labels sous les barres */
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.chart-area {
+  flex: 1;
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  border-left: 1px solid var(--color-border);
+  padding-left: 14px;
+}
+
+.bar-wrapper {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.bar {
+  width: 100%;
+  max-width: 36px;
+  background: #c7d2fe;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: height 0.4s ease, background 0.2s ease, opacity 0.15s ease;
+}
+
+.bar:hover { opacity: 0.85; }
+
+.bar.highlight { background: var(--color-primary); }
+
+.bar-label {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.chart-tooltip {
+  position: fixed;
+  background: #111827;
+  color: var(--color-white);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -100%);
+  transition: opacity 0.15s ease;
+  z-index: 50;
+  white-space: nowrap;
+}
+
+.chart-tooltip.visible { opacity: 1; }
+
+/* ===== 9. Responsive ===== */
+
+/* Tablette : les cartes passent en 2 colonnes, graphique et activités s'empilent */
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .bottom-grid { grid-template-columns: 1fr; }
+}
+
+/* Petit écran : la sidebar se réduit aux icônes seules (pas de JS nécessaire) */
+@media (max-width: 768px) {
+  .sidebar { width: 72px; }
+
+  .logo-text,
+  .admin-info,
+  .nav-item span:not(.nav-icon) {
+    display: none;
+  }
+
+  .logo { justify-content: center; padding: 24px 0; }
+  .nav-item { justify-content: center; }
+  .sidebar-footer { justify-content: center; }
+
+  .topbar { padding: 16px 20px; }
+  .dashboard-body { padding: 20px; }
+
+  .overview-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .btn-primary { width: 100%; }
+}
+
+/* Mobile : une seule colonne, et le graphique défile horizontalement si besoin */
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+
+  .topbar h1 { font-size: 18px; }
+  .dashboard-body { padding: 16px; gap: 16px; }
+
+  .chart-area-wrapper { overflow-x: auto; }
+  .chart-area { min-width: 360px; }
+}

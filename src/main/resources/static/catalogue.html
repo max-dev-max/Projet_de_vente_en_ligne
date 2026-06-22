@@ -21,18 +21,13 @@
       </div>
       Assigame
     </a>
-    <div class="search-quick">
-      <i class="ph ph-magnifying-glass"></i>
-      <input type="search" placeholder="Recherche rapide…" aria-label="Recherche rapide">
-    </div>
     <nav class="main-nav" aria-label="Menu principal">
       <a href="/catalogue.html" class="active" aria-current="page">Catalogue</a>
-      <a href="/admin/categories.html">Catégories</a>
       <a href="/devenir-vendeur.html">Devenir vendeur</a>
     </nav>
     <div class="auth-actions">
-      <a class="link-plain" href="#">Connexion</a>
-      <button type="button" class="btn btn-primary">Inscription</button>
+      <a class="link-plain" href="/connexion-vendeur.html">Connexion Vendeur</a>
+      <a class="btn btn-primary" href="/devenir-vendeur.html">Inscription Vendeur</a>
     </div>
   </div>
 </header>
@@ -49,23 +44,7 @@
   </div>
 </section>
 
-<main class="page-wrap" role="main">
-  <div class="results-bar">
-    <span id="resultsCount">Chargement…</span>
-    <div class="sort-menu">
-      <button type="button" class="sort-control" id="sortControl">
-        Trier par : <strong id="sortLabel">Pertinence</strong>
-        <i class="ph ph-caret-down"></i>
-      </button>
-      <div class="sort-options" id="sortOptions">
-        <div class="sort-option selected">Pertinence</div>
-        <div class="sort-option">Prix croissant</div>
-        <div class="sort-option">Prix décroissant</div>
-        <div class="sort-option">Nouveautés</div>
-      </div>
-    </div>
-  </div>
-
+<main class="page-wrap catalog-page" role="main">
   <div class="catalog-grid">
     <aside class="filters" aria-label="Filtres">
       <div class="filter-head">
@@ -93,6 +72,22 @@
     </aside>
 
     <div class="products-area">
+      <div class="results-bar">
+        <span id="resultsCount">Chargement…</span>
+        <div class="sort-menu">
+          <button type="button" class="sort-control" id="sortControl">
+            Trier par : <strong id="sortLabel">Pertinence</strong>
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <div class="sort-options" id="sortOptions">
+            <div class="sort-option selected">Pertinence</div>
+            <div class="sort-option">Prix croissant</div>
+            <div class="sort-option">Prix décroissant</div>
+            <div class="sort-option">Nouveautés</div>
+          </div>
+        </div>
+      </div>
+
       <div class="products-grid" id="productsGrid"></div>
       <div class="pagination" aria-label="Pagination">
         <button type="button" class="page-btn" aria-label="Page précédente"><i class="ph ph-caret-left"></i></button>

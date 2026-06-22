@@ -23,28 +23,19 @@
     </a>
     <nav class="main-nav" aria-label="Menu principal">
       <a href="/catalogue.html">Catalogue</a>
-      <a href="/admin/categories.html">Catégories</a>
       <a href="/devenir-vendeur.html" class="active" aria-current="page">Devenir vendeur</a>
     </nav>
     <div class="auth-actions">
-      <a class="link-plain" href="#">Connexion</a>
-      <button type="button" class="btn btn-primary">Inscription</button>
+      <a class="link-plain" href="/connexion-vendeur.html">Connexion Vendeur</a>
+      <a class="btn btn-primary" href="/devenir-vendeur.html">Inscription Vendeur</a>
     </div>
   </div>
 </header>
 
-<main class="page-wrap" role="main">
+<main class="page-wrap devenir-page" role="main">
   <div class="intro">
     <h1>Devenez Vendeur Partenaire</h1>
     <p>Rejoignez notre marketplace et touchez des milliers de clients.</p>
-  </div>
-
-  <div class="status-banner" id="statusBanner" hidden>
-    <span class="status-icon"><i class="ph ph-clock"></i></span>
-    <div>
-      <div class="status-title">Demande en cours d'examen</div>
-      <div class="status-text">Votre dossier a été soumis. Réponse sous 48 h ouvrées.</div>
-    </div>
   </div>
 
   <form id="sellerForm" novalidate>
@@ -82,9 +73,7 @@
         <div class="field full">
           <label for="typeVendeur">Type de vendeur <span class="req">*</span></label>
           <select id="typeVendeur" name="typeVendeur" required>
-            <option value="Particulier">Particulier</option>
-            <option value="Professionnel">Professionnel</option>
-            <option value="Partenaire Vip">Partenaire Vip</option>
+            <option value="">Chargement…</option>
           </select>
           <span class="field-error-msg">Sélectionnez un type</span>
         </div>

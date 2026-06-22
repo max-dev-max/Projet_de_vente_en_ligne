@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administration – Mes Produits</title>
+  <link rel="stylesheet" href="/css/admin/produits-admin.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-icon">A</div>
+      <div class="brand-name">Administration</div>
+      <div class="brand-sub">Gestion Plateforme</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="#">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon">📋</span> Demandes
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon">👥</span> Vendeurs
+      </a>
+      <a class="nav-item active" href="#">
+        <span class="nav-icon">📦</span> Produits
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon">🏷️</span> Catégories
+      </a>
+      <a class="nav-item" href="#">
+        <span class="nav-icon">🔖</span> Types
+      </a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="page-header">
+      <div class="header-row">
+        <div>
+          <h1>Mes Produits</h1>
+          <p>Gérez votre catalogue, mettez à jour les prix et suivez l'état de vos articles.</p>
+        </div>
+        <button class="btn-primary">+ Ajouter un produit</button>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Rechercher un produit..." />
+        </div>
+        <button class="filter-btn">Tous les statuts ▾</button>
+        <button class="filter-btn">Toutes catégories ▾</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Nom du produit</th>
+            <th>Catégorie</th>
+            <th>Prix</th>
+            <th>Statut</th>
+            <th>Date d'ajout</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productsTableBody"></tbody>
+      </table>
+
+      <!-- Footer pagination -->
+      <div class="table-footer">
+        <span id="productsTableCount"></span>
+        <div class="pagination" id="productsPagination"></div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>

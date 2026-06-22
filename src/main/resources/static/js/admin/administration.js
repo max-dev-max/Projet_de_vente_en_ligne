@@ -5,9 +5,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   try {
     var demandes = await AssigameAPI.getDemandesVendeur();
     if (pendingEl) pendingEl.textContent = demandes.length;
-    var produits = await AssigameAPI.getProduits();
-    var attente = produits.filter(function (p) { return p.statut === 'EN_ATTENTE'; });
-    if (productsEl) productsEl.textContent = attente.length;
+    var produits = await AssigameAPI.getDemandesProduits();
+    if (productsEl) productsEl.textContent = produits.length;
   } catch (e) {
     AssigameUtils.showToast(e.message || 'Erreur chargement dashboard');
   }

@@ -25,4 +25,7 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
     @Query("SELECT u FROM Utilisateur u JOIN FETCH u.id_typeutilisateur WHERE u.statut_compte = ?1 ORDER BY u.id_utilisateur")
     List<Utilisateur> findByStatut_compte(String statut_compte);
 
+    @Query("SELECT u FROM Utilisateur u JOIN FETCH u.id_typeutilisateur WHERE u.id_utilisateur = ?1")
+    Optional<Utilisateur> findByIdWithType(Long id_utilisateur);
+
 }

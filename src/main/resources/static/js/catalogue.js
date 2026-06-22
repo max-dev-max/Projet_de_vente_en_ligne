@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         '</div>' +
         '<div class="product-body">' +
           '<p class="product-title">' + (produit.nom_produit || 'Sans nom') + '</p>' +
+          '<p class="product-desc">' + (produit.description || '') + '</p>' +
           '<div class="product-meta"><i class="ph-fill ph-star"></i> Nouveau</div>' +
           '<div class="product-footer">' +
             '<span class="product-price">' + price + '</span>' +
@@ -71,12 +72,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         updateResultsCount(0, 0);
         return;
       }
-      var actifs = produits.filter(function (p) { return !p.statut || p.statut === 'ACTIF'; });
-      var list = actifs.length ? actifs : produits;
-      grid.innerHTML = list.map(renderProductCard).join('');
-      updateResultsCount(list.length, list.length);
+      grid.innerHTML = produits.map(renderProductCard).join('');
+      updateResultsCount(produits.length, produits.length);
       bindInteractions();
-      setupFilters(list);
+      setupFilters(produits);
     } catch (err) {
       grid.innerHTML = '<div class="catalog-error"><p>Impossible de charger les produits.</p><button type="button" class="btn btn-primary" id="retryCatalogue">Réessayer</button></div>';
       var retry = document.getElementById('retryCatalogue');

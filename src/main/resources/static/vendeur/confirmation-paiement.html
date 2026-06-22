@@ -18,15 +18,15 @@
       <div class="payment-receipt">
         <div class="d-flex justify-between mb-2">
           <span>Offre</span>
-          <strong id="confirmPlan">Professionnel</strong>
+          <span id="confirmPlan">—</span>
         </div>
         <div class="d-flex justify-between mb-2">
           <span>Montant</span>
-          <strong id="confirmAmount">19 000 FCFA</strong>
+          <strong id="confirmAmount">—</strong>
         </div>
         <div class="d-flex justify-between">
           <span>Transaction</span>
-          <span style="font-family:monospace;">#TX-ASSIGAME</span>
+          <span id="confirmTx" style="font-family:monospace;">—</span>
         </div>
       </div>
 
@@ -36,17 +36,8 @@
     </div>
   </div>
 
-  <script>
-    (function () {
-      var plan = new URLSearchParams(location.search).get('plan') || 'pro';
-      var map = {
-        demarrage: { name: 'Démarrage', amount: '0 FCFA' },
-        pro: { name: 'Professionnel', amount: '19 000 FCFA' }
-      };
-      var p = map[plan] || map.pro;
-      document.getElementById('confirmPlan').textContent = p.name;
-      document.getElementById('confirmAmount').textContent = p.amount;
-    })();
-  </script>
+  <script src="/js/api.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/vendeur/confirmation-paiement.js"></script>
 </body>
 </html>

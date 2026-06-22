@@ -78,7 +78,8 @@
         body: { email: email, motDePasse: motDePasse }
       }).then(function (res) {
         if (res.token) setToken(res.token);
-        if (res.user) setUser(res.user);
+        if (res.utilisateur) setUser(res.utilisateur);
+        else if (res.user) setUser(res.user);
         return res;
       });
     },
@@ -88,10 +89,10 @@
 
     /* ---- Catalogue (public) ---- */
     getProduits: function () {
-      return request('/api/produits');
+      return request('/api/produits/list');
     },
     getProduit: function (id) {
-      return request('/api/produits/' + id);
+      return request('/api/produits/search/' + id);
     },
     getCategories: function () {
       return request('/api/categorieproduit/list');
@@ -99,27 +100,39 @@
 
     /* ---- Vendeur ---- */
     createProduit: function (payload) {
-      return request('/api/produits', { method: 'POST', body: payload });
+      return request('/api/produits/create', { method: 'POST', body: payload });
     },
     updateProduit: function (id, payload) {
-      return request('/api/produits/' + id, { method: 'PUT', body: payload });
+      return request('/api/produits/update/' + id, { method: 'PUT', body: payload });
     },
     deleteProduit: function (id) {
-      return request('/api/produits/' + id, { method: 'DELETE' });
+      return request('/api/produits/delete/' + id, { method: 'DELETE' });
     },
 
     /* ---- Admin ---- */
     getDemandesVendeur: function () {
-      return request('/api/admin/demandes-vendeur');
+      return request('/api/admin/demandes-vendeur/list');
     },
     approuverVendeur: function (id) {
-      return request('/api/admin/demandes-vendeur/' + id + '/approuver', { method: 'POST' });
+      return request('/api/admin/demandes-vendeur/approve/' + id, { method: 'POST' });
     },
     refuserVendeur: function (id) {
-      return request('/api/admin/demandes-vendeur/' + id + '/refuser', { method: 'POST' });
+      return request('/api/admin/demandes-vendeur/refuse/' + id, { method: 'POST' });
+    },
+    getDemandesProduits: function () {
+      return request('/api/admin/demandes-produits/list');
+    },
+    getProduitModeration: function (id) {
+      return request('/api/admin/demandes-produits/search/' + id);
+    },
+    approuverProduit: function (id) {
+      return request('/api/admin/demandes-produits/approve/' + id, { method: 'POST' });
+    },
+    refuserProduit: function (id) {
+      return request('/api/admin/demandes-produits/refuse/' + id, { method: 'POST' });
     },
     getUtilisateurs: function () {
-      return request('/api/utilisateurs');
+      return request('/api/utilisateurs/list');
     },
     getUtilisateur: function (email) {
       return request('/api/utilisateurs/search/' + encodeURIComponent(email));

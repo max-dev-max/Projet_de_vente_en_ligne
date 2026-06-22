@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   async function load() {
     try {
-      var p = await AssigameAPI.getProduit(id);
+      var p = await AssigameAPI.getProduitModeration(id);
       if (titleEl) titleEl.textContent = p.nom_produit;
       if (metaEl) {
         var vendeur = p.id_utilisateur ? p.id_utilisateur.prenom_utilisateur + ' ' + p.id_utilisateur.nom_utilisateur : '—';
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (btnApprove) {
         btnApprove.onclick = async function () {
           try {
-            await AssigameAPI.updateProduit(id, { statut: 'ACTIF' });
+            await AssigameAPI.approuverProduit(id);
             AssigameUtils.showToast('Produit approuvé');
             window.location.href = '/admin/demandes-produits.html';
           } catch (e) { AssigameUtils.showToast(e.message); }
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (btnReject) {
         btnReject.onclick = async function () {
           try {
-            await AssigameAPI.updateProduit(id, { statut: 'REFUSE' });
+            await AssigameAPI.refuserProduit(id);
             AssigameUtils.showToast('Produit refusé');
             window.location.href = '/admin/demandes-produits.html';
           } catch (e) { AssigameUtils.showToast(e.message); }

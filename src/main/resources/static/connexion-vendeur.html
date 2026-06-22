@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assigame – Connexion Vendeur</title>
+  <link rel="stylesheet" href="/css/connexion-vendeur.css" />
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- Logo -->
+    <div class="logo">Assigame</div>
+
+    <!-- Card -->
+    <div class="card">
+      <h1>Connexion Vendeur</h1>
+      <p class="subtitle">Accédez à votre espace de vente et gérez vos produits</p>
+
+      <form id="loginForm" novalidate>
+
+        <p class="form-error" id="loginError" hidden role="alert"></p>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Adresse Email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">✉️</span>
+            <input type="email" id="email" placeholder="nom@exemple.com" />
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="form-group">
+          <div class="label-row">
+            <label for="password">Mot de passe</label>
+            <a href="#" class="forgot">Mot de passe oublié ?</a>
+          </div>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="password" placeholder="••••••••" />
+            <span class="input-icon-right">👁️</span>
+          </div>
+        </div>
+
+        <!-- Bouton -->
+        <button type="submit" class="btn-primary" id="btnLogin">Se connecter</button>
+
+      </form>
+
+      <!-- Séparateur -->
+      <div class="divider">
+        <span>Ou</span>
+      </div>
+
+      <!-- Inscription -->
+      <p class="register">
+        Pas encore de compte ? <a href="/devenir-vendeur.html">Devenir vendeur</a>
+      </p>
+
+      <!-- SSL -->
+      <p class="ssl">🔒 Connexion sécurisée SSL</p>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>© 2024 Assigame. Tous droits réservés.</span>
+      <div class="footer-links">
+        <a href="#">Conditions Générales</a>
+        <a href="#">Politique de Confidentialité</a>
+        <a href="#">Contact</a>
+        <a href="#">Aide</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/connexion-vendeur.js"></script>
+</body>
+</html>

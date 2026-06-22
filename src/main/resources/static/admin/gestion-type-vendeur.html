@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administration – Types de Vendeur</title>
+  <link rel="stylesheet" href="/css/admin/gestion-type-vendeur.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="avatar"></div>
+      <div>
+        <div class="brand-name">Administration</div>
+        <div class="brand-sub">Gestion Plateforme</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="#">🏠 Dashboard</a>
+      <a class="nav-item" href="#">📋 Demandes</a>
+      <a class="nav-item" href="#">👥 Vendeurs</a>
+      <a class="nav-item" href="#">📦 Produits</a>
+      <a class="nav-item" href="#">🏷️ Catégories</a>
+      <a class="nav-item active" href="#">🔖 Types</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="top-bar">
+      <span class="top-icon">🔔</span>
+      <span class="top-icon">⚙️</span>
+    </div>
+
+    <div class="page-header">
+      <div>
+        <h1>Gestion des Types de Vendeur</h1>
+        <p>Configurez les statuts techniques et libellés associés aux vendeurs.</p>
+      </div>
+      <button class="btn-primary">+ Nouveau Type</button>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Nom technique</th>
+            <th>Libellé</th>
+            <th>Description</th>
+            <th>Vendeurs Actifs</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="typesTableBody"></tbody>
+      </table>
+    </div>
+
+  </main>
+
+</body>
+</html>

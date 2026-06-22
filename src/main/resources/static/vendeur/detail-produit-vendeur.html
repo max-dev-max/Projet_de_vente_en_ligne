@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assigame - Détail du produit</title>
+  <!-- Le CSS sera relié ici à l'étape 2 -->
+  <link rel="stylesheet" href="/css/vendeur/detail-produit-vendeur.css">
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+
+      <div class="logo">
+        <span class="logo-text-group">
+          <span class="logo-title">Place vendeur</span>
+          <span class="logo-subtitle">Gestion Produits</span>
+        </span>
+      </div>
+
+      <nav class="nav-menu">
+        <ul>
+          <li class="nav-item">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="9" rx="1"/>
+                <rect x="14" y="3" width="7" height="5" rx="1"/>
+                <rect x="14" y="12" width="7" height="9" rx="1"/>
+                <rect x="3" y="16" width="7" height="5" rx="1"/>
+              </svg>
+            </span>
+            <span>Dashboard</span>
+          </li>
+          <li class="nav-item">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1Z"/>
+                <rect x="5" y="4" width="14" height="17" rx="2"/>
+                <path d="M9 11h6"/>
+                <path d="M9 15h6"/>
+              </svg>
+            </span>
+            <span>Demandes</span>
+          </li>
+          <li class="nav-item">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </span>
+            <span>Vendeurs</span>
+          </li>
+          <li class="nav-item active">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                <path d="m3.3 7 8.7 5 8.7-5"/>
+                <path d="M12 22V12"/>
+              </svg>
+            </span>
+            <span>Produits</span>
+          </li>
+          <li class="nav-item">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42Z"/>
+                <circle cx="7.5" cy="7.5" r="1.5"/>
+              </svg>
+            </span>
+            <span>Catégories</span>
+          </li>
+          <li class="nav-item">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 3h12l4 6-10 12L2 9Z"/>
+                <path d="M11 3 8 9l4 12 4-12-3-6"/>
+                <path d="M2 9h20"/>
+              </svg>
+            </span>
+            <span>Types</span>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Profil vendeur en bas -->
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <img src="" alt="Avatar" class="avatar">
+          <div class="admin-info">
+            <span class="admin-name" id="vendorName"></span>
+            <span class="admin-email" id="vendorEmail"></span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ============ CONTENU PRINCIPAL ============ -->
+    <div class="main-content">
+
+      <!-- Barre du haut avec fil d'ariane -->
+      <header class="topbar">
+        <nav class="breadcrumb">
+          <a href="#">Produits</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">Détail du produit</span>
+        </nav>
+        <div class="topbar-actions">
+          <span class="icon-btn has-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+          </span>
+          <span class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+            </svg>
+          </span>
+        </div>
+      </header>
+
+      <!-- Contenu scrollable -->
+      <main class="page-body">
+
+        <!-- En-tête du produit -->
+        <div class="product-header">
+          <div class="product-header-main">
+            <h1 class="product-title" id="productTitle"></h1>
+            <span class="status-badge" id="productStatusBadge">
+              <span class="status-badge-dot"></span>
+              <span id="productStatusLabel"></span>
+            </span>
+          </div>
+          <div class="header-actions">
+            <button type="button" class="btn-outline-dark" id="btnEdit">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z"/>
+              </svg>
+              Modifier
+            </button>
+            <button type="button" class="btn-outline-danger" id="btnDelete">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                <line x1="10" y1="11" x2="10" y2="17"/>
+                <line x1="14" y1="11" x2="14" y2="17"/>
+              </svg>
+              Supprimer
+            </button>
+          </div>
+        </div>
+
+        <p class="product-reference" id="productReference"></p>
+
+        <!-- Grille principale -->
+        <div class="detail-grid">
+
+          <!-- Colonne gauche -->
+          <div class="detail-main">
+
+            <!-- Galerie -->
+            <section class="card gallery-card">
+              <div class="gallery-main">
+                <img src="" alt="" id="galleryMainImage">
+              </div>
+              <div class="gallery-thumbs" id="galleryThumbs">
+                <button type="button" class="thumb thumb-add">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M12 8v8"/>
+                    <path d="M8 12h8"/>
+                  </svg>
+                </button>
+              </div>
+            </section>
+
+            <!-- Description -->
+            <section class="card description-card">
+              <h3>Description</h3>
+              <div id="productDescription"></div>
+              <ul class="feature-list" id="productFeatures"></ul>
+            </section>
+
+          </div>
+
+          <!-- Colonne droite -->
+          <div class="detail-side">
+
+            <!-- Prix -->
+            <section class="card price-card">
+              <p class="price-label">Prix de vente</p>
+              <p class="price-value" id="productPrice"></p>
+
+              <div class="info-row">
+                <div class="info-item">
+                  <span class="info-label">Stock</span>
+                  <span class="info-value" id="productStock"></span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Catégorie</span>
+                  <span class="info-value" id="productCategory"></span>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <div class="info-item">
+                  <span class="info-label">Marque</span>
+                  <span class="info-value" id="productBrand"></span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">État</span>
+                  <span class="info-value" id="productCondition"></span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Lien public -->
+            <section class="card link-card">
+              <div class="link-card-header">
+                <span class="link-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M2 12h20"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/>
+                  </svg>
+                </span>
+                <div>
+                  <p class="link-title">Lien Public</p>
+                  <p class="link-subtitle">Partagez ce produit avec vos clients</p>
+                </div>
+              </div>
+              <div class="link-box">
+                <span class="link-url" id="productUrl"></span>
+                <button type="button" class="btn-copy" id="btnCopy">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  Copier
+                </button>
+              </div>
+            </section>
+
+            <!-- Performances -->
+            <section class="card performance-card">
+              <h3>Performances</h3>
+
+              <div class="perf-item">
+                <div class="perf-label-row">
+                  <span class="perf-label">Vues (30j)</span>
+                  <span class="perf-value" id="perfViews"></span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill blue" id="perfViewsBar" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div class="perf-item">
+                <div class="perf-label-row">
+                  <span class="perf-label">Ventes (30j)</span>
+                  <span class="perf-value" id="perfSales"></span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill green" id="perfSalesBar" style="width: 0%"></div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+        </div>
+
+        <!-- Historique du produit -->
+        <section class="card history-card">
+          <div class="history-header">
+            <span class="history-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 4v5h5"/>
+                <path d="M3.05 11a9 9 0 1 1 .5 4"/>
+                <path d="M12 8v4l3 3"/>
+              </svg>
+            </span>
+            <h3>Historique du produit</h3>
+          </div>
+
+          <ul class="timeline" id="productTimeline"></ul>
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Le JS sera relié ici à l'étape 3 -->
+  <script src="/js/vendeur/detail-produit-vendeur.js" defer></script>
+
+</body>
+</html>

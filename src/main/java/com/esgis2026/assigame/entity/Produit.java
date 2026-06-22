@@ -53,7 +53,7 @@ public class Produit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_produit;
 
-    @Column(unique = false, nullable = false, length = 50)
+    @Column(unique = true, nullable = false, length = 50)
     private String nom_produit;
 
     @Override
@@ -81,6 +81,9 @@ public class Produit {
     @PrePersist
     public void definirDateAjout() {
         this.date_ajout = LocalDateTime.now();
+        if (this.statut == null || this.statut.isBlank()) {
+            this.statut = "EN_ATTENTE";
+        }
     }
 
     @Column(unique = false, nullable = false, length = 10)

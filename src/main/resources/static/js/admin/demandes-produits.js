@@ -6,13 +6,12 @@ document.addEventListener('DOMContentLoaded', async function () {
   async function load() {
     tbody.innerHTML = '<tr><td colspan="7">Chargement…</td></tr>';
     try {
-      var produits = await AssigameAPI.getProduits();
-      var attente = produits.filter(function (p) { return p.statut === 'EN_ATTENTE'; });
-      if (!attente.length) {
+      var produits = await AssigameAPI.getDemandesProduits();
+      if (!produits.length) {
         tbody.innerHTML = '<tr><td colspan="7">Aucun produit en attente de modération.</td></tr>';
         return;
       }
-      tbody.innerHTML = attente.map(function (p) {
+      tbody.innerHTML = produits.map(function (p) {
         var vendeur = p.id_utilisateur ? (p.id_utilisateur.prenom_utilisateur + ' ' + p.id_utilisateur.nom_utilisateur) : '—';
         var cat = p.idcategorie_produit ? p.idcategorie_produit.nom_categorieproduit : '—';
         return (

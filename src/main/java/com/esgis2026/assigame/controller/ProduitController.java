@@ -27,17 +27,17 @@ public class ProduitController {
      */
     @GetMapping("/list")
     public List<Produit> getAllProduits() {
-        return produitService.getAllProduits();
+        return produitService.getProduitsPublics();
     }
 
     /**
-     * Récupère les détails d'un produit spécifique par son ID.
+     * Récupère les détails d'un produit visible sur la plateforme (statut ACTIF).
      * @param id Identifiant du produit.
-     * @return Produit correspondant ou vide s'il n'existe pas.
+     * @return Produit correspondant ou vide s'il n'existe pas ou n'est pas publié.
      */
     @GetMapping("/search/{id}")
     public Optional<Produit> getProduitById(@PathVariable Long id) {
-        return produitService.getProduitById(id);
+        return produitService.getProduitPublicById(id);
     }
 
     /**
