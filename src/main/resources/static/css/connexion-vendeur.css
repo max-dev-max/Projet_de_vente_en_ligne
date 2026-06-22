@@ -1,7 +1,7 @@
 
 body {
   font-family: 'Outfit', sans-serif;
-  background-color: #eef1f8;
+  background-color: #f5f0eb;
   color: #333;
   min-height: 100vh;
 }
@@ -22,7 +22,7 @@ body {
   font-family: 'Syne', sans-serif;
   font-size: 20px;
   font-weight: 800;
-  color: #1a56db;
+  color: #4A2E1B;
   margin-bottom: 20px;
   letter-spacing: 0.5px;
 }
@@ -86,7 +86,7 @@ label {
  
 .forgot {
   font-size: 12px;
-  color: #1a56db;
+  color: #4A2E1B;
   text-decoration: none;
   font-weight: 600;
 }
@@ -132,7 +132,7 @@ input[type="password"] {
  
 input[type="email"]:focus,
 input[type="password"]:focus {
-  border-color: #1a56db;
+  border-color: #4A2E1B;
   box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
 }
  
@@ -144,7 +144,7 @@ input::placeholder {
 .btn-primary {
   width: 100%;
   padding: 12px;
-  background-color: #1a56db;
+  background-color: #4A2E1B;
   color: #fff;
   border: none;
   border-radius: 40px;
@@ -156,7 +156,7 @@ input::placeholder {
 }
  
 .btn-primary:hover {
-  background-color: #1447b6;
+  background-color: #3a2416;
 }
  
 /* ===== DIVIDER ===== */
@@ -186,7 +186,7 @@ input::placeholder {
 }
  
 .register a {
-  color: #1a56db;
+  color: #4A2E1B;
   text-decoration: none;
   font-weight: 600;
 }
@@ -214,7 +214,7 @@ input::placeholder {
   padding: 14px 32px;
   font-size: 12px;
   color: #888;
-  background: #eef1f8;
+  background: #f5f0eb;
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -231,6 +231,6 @@ input::placeholder {
 }
  
 .footer-links a:hover {
-  color: #1a56db;
+  color: #4A2E1B;
   text-decoration: underline;
 }

@@ -11,12 +11,12 @@
    ========================================================= */
 
 :root {
-  /* Couleurs de marque */
-  --navy-950: #0F1B33;
-  --navy-900: #15213D;
-  --navy-800: #1B2A4A;
-  --blue-600: #2554E0;
-  --blue-50:  #EEF2FF;
+  /* Couleurs de marque (marron) */
+  --navy-950: #2a1a10;
+  --navy-900: #3a2416;
+  --navy-800: #4A2E1B;
+  --blue-600: #4A2E1B;
+  --blue-50:  #F5EDE6;
   
   /* Couleurs neutres */
   --slate-900: #111827;
@@ -171,7 +171,7 @@ header.site-header {
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--blue-600), #4C7BFF);
+  background: linear-gradient(135deg, var(--blue-600), #6B4A35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -376,7 +376,7 @@ footer.site-footer {
 }
 .brand-mark{
   width:34px;height:34px;border-radius:9px;
-  background:linear-gradient(135deg, var(--blue-600), #4C7BFF);
+  background:linear-gradient(135deg, var(--blue-600), #6B4A35);
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;
 }
@@ -390,20 +390,20 @@ footer.site-footer {
 }
 .avatar-ring{
   width:36px;height:36px;border-radius:50%;
-  background:#2B3C63;
+  background:#4a3224;
   display:flex;align-items:center;justify-content:center;
-  color:#9DB0E0;font-weight:600;font-size:13px;
+  color:#c4a88a;font-weight:600;font-size:13px;
   border:1.5px solid rgba(255,255,255,0.18);
   flex-shrink:0;
 }
-.context-label{font-size:11.5px;color:#8794B5;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+.context-label{font-size:11.5px;color:#a89078;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
 .context-title{font-size:13.5px;font-weight:600;color:#EAEDF6;}
 
 .sidebar-nav{padding:14px 12px;display:flex;flex-direction:column;gap:2px;flex:1;}
 .nav-item{
   display:flex;align-items:center;gap:12px;
   padding:10px 12px;border-radius:8px;
-  font-size:14px;font-weight:500;color:#A9B4CE;
+  font-size:14px;font-weight:500;color:#b8a090;
   cursor:pointer;border:none;background:none;width:100%;text-align:left;
   transition:background .15s ease, color .15s ease;
 }
@@ -412,14 +412,14 @@ footer.site-footer {
 .nav-item.active{background:var(--blue-600);color:#fff;}
 
 .sidebar-footer{
-  padding:16px 22px;font-size:11.5px;color:#5C6A8C;
+  padding:16px 22px;font-size:11.5px;color:#8a7560;
   border-top:1px solid rgba(255,255,255,0.08);
 }
 
 /* ---- Main content ---- */
 .main{flex:1;min-width:0;display:flex;flex-direction:column;}
 .topbar{
-  background:#1A2540;color:#C7CFE3;
+  background:#2a1a10;color:#d4c4b4;
   padding:12px 36px;font-size:12.5px;font-weight:500;letter-spacing:.02em;
   border-bottom:1px solid rgba(255,255,255,0.06);
 }
@@ -460,7 +460,7 @@ td{padding:15px 24px;vertical-align:middle;color:var(--slate-700);}
 .cat-icon svg{width:18px;height:18px;}
 .cat-icon i{font-size:18px;}
 .icon-violet{background:#EEF0FE;color:#5B5FE0;}
-.icon-blue{background:#E9F1FF;color:#2563EB;}
+.icon-blue{background:#F5EDE6;color:#4A2E1B;}
 .icon-green{background:#E8F8EE;color:#16A34A;}
 .icon-amber{background:#FFF4E5;color:#D97706;}
 .icon-rose{background:#FDEEF1;color:#DB2777;}
@@ -1091,7 +1091,7 @@ body.catalogue-body .btn-primary:active {
   display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;
   border:1px solid var(--slate-200);border-radius:12px;margin-bottom:22px;
 }
-.seller-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#6C7CF0,#4C7BFF);flex-shrink:0;}
+.seller-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#6B4A35,#4A2E1B);flex-shrink:0;}
 .seller-info{flex:1;}
 .seller-name{font-weight:600;font-size:14px;color:var(--slate-900);}
 .seller-rating{font-size:12.5px;color:var(--slate-500);display:flex;align-items:center;gap:4px;}
@@ -1205,10 +1205,10 @@ body.catalogue-body .btn-primary:active {
   --bg-surface: #FFFFFF;
   --bg-overlay: rgba(255, 255, 255, 0.8);
   
-  --primary: #1E40AF;
-  --primary-hover: #1e3a8a;
-  --secondary: #4F46E5;
-  --secondary-hover: #4338ca;
+  --primary: #4A2E1B;
+  --primary-hover: #5c3a24;
+  --secondary: #5c3a24;
+  --secondary-hover: #6B4A35;
   
   --text-main: #0F172A;
   --text-sub: #64748B;

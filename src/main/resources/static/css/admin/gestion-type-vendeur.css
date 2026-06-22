@@ -62,14 +62,14 @@ body {
 }
 
 .nav-item:hover {
-  background-color: #f5f7ff;
-  color: #1a56db;
+  background-color: #F5EDE6;
+  color: #4A2E1B;
 }
 
 .nav-item.active {
-  background-color: #eef2ff;
-  color: #1a56db;
-  border-left: 3px solid #1a56db;
+  background-color: #F5EDE6;
+  color: #4A2E1B;
+  border-left: 3px solid #4A2E1B;
   font-weight: 600;
 }
 
@@ -101,7 +101,7 @@ body {
 }
 
 .top-icon:hover {
-  color: #1a56db;
+  color: #4A2E1B;
 }
 
 /* ===== PAGE HEADER ===== */
@@ -128,7 +128,7 @@ body {
 
 .btn-primary {
   padding: 9px 16px;
-  background-color: #1a56db;
+  background-color: #4A2E1B;
   color: #fff;
   border: none;
   border-radius: 40px;
@@ -140,7 +140,7 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #1447b6;
+  background-color: #3a2416;
 }
 
 /* ===== TABLE CARD ===== */
@@ -181,7 +181,7 @@ tbody tr:last-child {
 }
 
 tbody tr:hover {
-  background-color: #f8faff;
+  background-color: #F5EDE6;
 }
 
 tbody td {
@@ -202,8 +202,8 @@ tbody td {
 }
 
 .tag-pro {
-  background-color: #dbeafe;
-  color: #1e40af;
+  background-color: #F5EDE6;
+  color: #4A2E1B;
 }
 
 .tag-part {
@@ -225,8 +225,8 @@ tbody td {
 /* ===== COUNT ===== */
 .count {
   display: inline-block;
-  background-color: #e8edf8;
-  color: #1a56db;
+  background-color: #EDE4DC;
+  color: #4A2E1B;
   font-size: 13px;
   font-weight: 700;
   padding: 4px 14px;
@@ -250,7 +250,7 @@ tbody td {
 }
 
 .action-btn:hover {
-  border-color: #1a56db;
-  color: #1a56db;
-  background: #eef2ff;
+  border-color: #4A2E1B;
+  color: #4A2E1B;
+  background: #F5EDE6;
 }

@@ -4,8 +4,8 @@
 
 /* ===== 1. Variables & reset ===== */
 :root {
-  --color-primary: #4338ca;
-  --color-primary-light: #eef2ff;
+  --color-primary: #4A2E1B;
+  --color-primary-light: #F5EDE6;
   --color-bg: #f5f6fa;
   --color-white: #ffffff;
   --color-border: #e5e7eb;
@@ -307,7 +307,7 @@ ul { list-style: none; }
 }
 
 .dot.green { background: var(--color-success); }
-.dot.blue  { background: #2563eb; }
+.dot.blue  { background: #4A2E1B; }
 .dot.red   { background: var(--color-danger); }
 .dot.grey  { background: #9ca3af; }
 

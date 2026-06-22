@@ -49,7 +49,7 @@ public class CategorieProduitContoller {
     }
 
     /**
-     * Point d'accès DELETE pour supprimer une catégorie.
+     * Point d'accès DELETE pour supprimer une.
      * 
      * @param nomCategorie Nom de la catégorie passé dans l'URL.
      */

@@ -27,7 +27,7 @@ body {
 .sidebar-header .logo-icon {
   width: 32px;
   height: 32px;
-  background-color: #1a56db;
+  background-color: #4A2E1B;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -67,14 +67,14 @@ body {
 }
  
 .nav-item:hover {
-  background-color: #f5f7ff;
-  color: #1a56db;
+  background-color: #F5EDE6;
+  color: #4A2E1B;
 }
  
 .nav-item.active {
-  background-color: #eef2ff;
-  color: #1a56db;
-  border-left: 3px solid #1a56db;
+  background-color: #F5EDE6;
+  color: #4A2E1B;
+  border-left: 3px solid #4A2E1B;
   font-weight: 600;
 }
  
@@ -144,7 +144,7 @@ body {
 }
  
 .search-box input:focus {
-  border-color: #1a56db;
+  border-color: #4A2E1B;
   box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
 }
  
@@ -170,13 +170,13 @@ body {
 }
  
 .filter-btn:hover {
-  border-color: #1a56db;
-  color: #1a56db;
+  border-color: #4A2E1B;
+  color: #4A2E1B;
 }
  
 .btn-primary {
   padding: 9px 16px;
-  background-color: #1a56db;
+  background-color: #4A2E1B;
   color: #fff;
   border: none;
   border-radius: 40px;
@@ -188,7 +188,7 @@ body {
 }
  
 .btn-primary:hover {
-  background-color: #1447b6;
+  background-color: #3a2416;
 }
  
 /* ===== TABLE ===== */
@@ -229,7 +229,7 @@ tbody tr:last-child {
 }
  
 tbody tr:hover {
-  background-color: #f8faff;
+  background-color: #F5EDE6;
 }
  
 tbody td {
@@ -349,9 +349,9 @@ tbody td {
 }
  
 .action-btn:hover {
-  border-color: #1a56db;
-  color: #1a56db;
-  background: #eef2ff;
+  border-color: #4A2E1B;
+  color: #4A2E1B;
+  background: #F5EDE6;
 }
  
 /* ===== TABLE FOOTER ===== */
@@ -386,12 +386,12 @@ tbody td {
 }
  
 .page-btn:hover {
-  border-color: #1a56db;
-  color: #1a56db;
+  border-color: #4A2E1B;
+  color: #4A2E1B;
 }
  
 .page-btn.active {
-  background: #1a56db;
-  border-color: #1a56db;
+  background: #4A2E1B;
+  border-color: #4A2E1B;
   color: #fff;
 }
