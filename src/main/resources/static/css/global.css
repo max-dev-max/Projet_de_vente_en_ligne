@@ -501,7 +501,7 @@ td{padding:15px 24px;vertical-align:middle;color:var(--slate-700);}
    ========================================================= */
 
 body.catalogue-body {
-  background-image: url('../images/hero-bg-clean.png');
+  background-image: url('../images/hero-bg-store.png?v=2');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -518,6 +518,21 @@ body.catalogue-body::before {
   height: 100%;
   background: rgba(0, 0, 0, 0.35);
   z-index: -1;
+}
+
+/* Boutons page de garde (catalogue) */
+body.catalogue-body .btn-primary {
+  background: #4A2E1B;
+  color: #ffffff;
+}
+
+body.catalogue-body .btn-primary:hover {
+  background: #5c3a24;
+  filter: none;
+}
+
+body.catalogue-body .btn-primary:active {
+  background: #3a2416;
 }
 
 /* ---- Animation d'apparition de la page (au chargement) ---- */

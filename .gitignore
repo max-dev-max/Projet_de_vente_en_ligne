@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Uploads produits (fichiers locaux, pas versionnés) ###
+uploads/

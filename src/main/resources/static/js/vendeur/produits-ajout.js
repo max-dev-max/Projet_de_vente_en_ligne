@@ -142,13 +142,13 @@ function removeFile(index) {
 
 // ===== 6. Statut "modifications non enregistrées / enregistrées" =====
 function markUnsaved() {
-  statusDot.classList.remove("saved");
-  statusText.textContent = "Modifications non enregistrées";
+  if (statusDot) statusDot.classList.remove("saved");
+  if (statusText) statusText.textContent = "Modifications non enregistrées";
 }
 
 function markSaved(message) {
-  statusDot.classList.add("saved");
-  statusText.textContent = message;
+  if (statusDot) statusDot.classList.add("saved");
+  if (statusText) statusText.textContent = message;
 }
 
 // Dès qu'on touche à un champ du formulaire, on repasse en "non enregistré"
@@ -203,12 +203,30 @@ btnDraft.addEventListener("click", () => {
   markSaved("Brouillon enregistré");
 });
 
-function notify(message) {
+function notify(message, duration) {
   if (window.AssigameUtils && AssigameUtils.showToast) {
-    AssigameUtils.showToast(message);
+    AssigameUtils.showToast(message, duration);
   } else {
     alert(message);
   }
+}
+
+function notifyPublishSuccess() {
+  var overlay = document.getElementById("publishSuccessOverlay");
+  if (overlay) {
+    overlay.hidden = false;
+    overlay.classList.add("show");
+    clearTimeout(overlay._hideTimer);
+    overlay._hideTimer = setTimeout(function () {
+      overlay.classList.remove("show");
+      overlay.hidden = true;
+    }, 1000);
+    return;
+  }
+  notify(
+    "Publication réussie ! Votre produit est en attente de validation par l'administrateur.",
+    1000
+  );
 }
 
 btnPublish.addEventListener("click", async () => {
@@ -244,8 +262,8 @@ btnPublish.addEventListener("click", async () => {
       image: urls.join(",")
     });
 
+    notifyPublishSuccess();
     markSaved("Produit enregistré avec succès");
-    notify("Produit envoyé — en attente de validation par l'administrateur.");
 
     productForm.reset();
     uploadedFiles.forEach((item) => URL.revokeObjectURL(item.url));

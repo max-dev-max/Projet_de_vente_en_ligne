@@ -199,7 +199,7 @@
       <footer class="action-bar">
         <div class="action-status">
           <span class="status-dot"></span>
-          Modifications non enregistrées
+          <span class="status-text">Modifications non enregistrées</span>
         </div>
         <div class="action-buttons">
           <button type="button" class="btn-secondary" id="btnCancel">Annuler</button>
@@ -225,6 +225,14 @@
   </div>
 
   <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <div class="publish-success-overlay" id="publishSuccessOverlay" hidden aria-live="polite">
+    <div class="publish-success-card">
+      <div class="publish-success-icon" aria-hidden="true">✓</div>
+      <p class="publish-success-title">Publication réussie !</p>
+      <p class="publish-success-text">Votre produit est en attente de validation par l'administrateur.</p>
+    </div>
+  </div>
 
   <script src="/js/api.js"></script>
   <script src="/js/utils.js"></script>
