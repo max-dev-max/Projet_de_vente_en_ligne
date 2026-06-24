@@ -430,7 +430,7 @@ Authorization: Bearer <token_jwt>
 ## Frontend
 
 Le frontend est **100 % statique**, sans framework JS.
-
+  
 | Fichier | Rôle |
 |---------|------|
 | `js/api.js` | Client HTTP, gestion JWT (sessions admin/vendeur séparées) |
