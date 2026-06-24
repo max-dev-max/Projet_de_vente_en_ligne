@@ -73,6 +73,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         return;
       }
       grid.innerHTML = produits.map(renderProductCard).join('');
+      grid.querySelectorAll('.product-card').forEach(function (card, index) {
+        card.classList.add('card-enter');
+        card.style.animationDelay = (0.1 + index * 0.07) + 's';
+      });
       updateResultsCount(produits.length, produits.length);
       bindInteractions();
       setupFilters(produits);

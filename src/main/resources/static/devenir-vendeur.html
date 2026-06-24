@@ -11,18 +11,18 @@
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 <link rel="stylesheet" href="/css/global.css">
 </head>
-<body>
+<body class="devenir-vendeur-body">
 
 <header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="/catalogue.html">
+    <a class="brand" href="/">
       <div class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="9" rx="3"/><circle cx="8" cy="12.5" r="1.2" fill="#fff" stroke="none"/><circle cx="6" cy="14.2" r="1.2" fill="#fff" stroke="none"/><circle cx="16.5" cy="11.7" r="1" fill="#fff" stroke="none"/><circle cx="18" cy="13.3" r="1" fill="#fff" stroke="none"/></svg>
       </div>
       Assigame
     </a>
     <nav class="main-nav" aria-label="Menu principal">
-      <a href="/catalogue.html">Catalogue</a>
+      <a href="/">Catalogue</a>
       <a href="/devenir-vendeur.html" class="active" aria-current="page">Devenir vendeur</a>
     </nav>
     <div class="auth-actions">
@@ -79,12 +79,40 @@
       <div class="field-grid">
         <div class="field">
           <label for="motDePasse">Mot de passe <span class="req">*</span></label>
-          <input type="password" id="motDePasse" name="motDePasse" placeholder="8 caractères minimum" required minlength="8">
+          <div class="password-field">
+            <input type="password" id="motDePasse" name="motDePasse" placeholder="8 caractères minimum" required minlength="8" autocomplete="new-password">
+            <button type="button" class="toggle-password" aria-label="Afficher le mot de passe" aria-pressed="false">
+              <svg class="icon-eye" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg class="icon-eye-slash" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"></path>
+                <path d="M1 1l22 22"></path>
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+              </svg>
+            </button>
+          </div>
           <span class="field-error-msg">Mot de passe requis (min. 8 car.)</span>
         </div>
         <div class="field">
           <label for="motDePasse_confirm">Confirmer <span class="req">*</span></label>
-          <input type="password" id="motDePasse_confirm" name="motDePasse_confirm" placeholder="••••••••" required>
+          <div class="password-field">
+            <input type="password" id="motDePasse_confirm" name="motDePasse_confirm" placeholder="••••••••" required autocomplete="new-password">
+            <button type="button" class="toggle-password" aria-label="Afficher le mot de passe" aria-pressed="false">
+              <svg class="icon-eye" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg class="icon-eye-slash" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
+                <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"></path>
+                <path d="M1 1l22 22"></path>
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+              </svg>
+            </button>
+          </div>
           <span class="field-error-msg">Les mots de passe doivent correspondre</span>
         </div>
       </div>

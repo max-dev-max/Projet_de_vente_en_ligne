@@ -7,6 +7,10 @@
   <!-- Le CSS sera relié ici à l'étape 2 -->
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/vendeur/detail-produit-vendeur.css">
+  <script>window.ASSIGAME_AUTH_SCOPE='vendor';</script>
+  <script src="/js/vendeur/session.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/vendeur/auth-guard.js"></script>
 </head>
 <body>
 
@@ -24,26 +28,41 @@
 
       <nav class="nav-menu">
         <ul>
-          <li class="nav-item">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="7" height="9" rx="1"/>
-                <rect x="14" y="3" width="7" height="5" rx="1"/>
-                <rect x="14" y="12" width="7" height="9" rx="1"/>
-                <rect x="3" y="16" width="7" height="5" rx="1"/>
-              </svg>
-            </span>
-            <span>Dashboard</span>
+          <li>
+            <a href="/vendeur/dashboard.html" class="nav-item" data-page="dashboard">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="9" rx="1"/>
+                  <rect x="14" y="3" width="7" height="5" rx="1"/>
+                  <rect x="14" y="12" width="7" height="9" rx="1"/>
+                  <rect x="3" y="16" width="7" height="5" rx="1"/>
+                </svg>
+              </span>
+              <span>Dashboard</span>
+            </a>
           </li>
-          <li class="nav-item active">
-            <span class="nav-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
-                <path d="m3.3 7 8.7 5 8.7-5"/>
-                <path d="M12 22V12"/>
-              </svg>
-            </span>
-            <span>Produits</span>
+          <li>
+            <a href="/vendeur/produits.html" class="nav-item active" data-page="produits">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                  <path d="m3.3 7 8.7 5 8.7-5"/>
+                  <path d="M12 22V12"/>
+                </svg>
+              </span>
+              <span>Produits</span>
+            </a>
+          </li>
+          <li>
+            <a href="/vendeur/produits-ajout.html" class="nav-item" data-page="publication">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 5v14"/>
+                  <path d="M5 12h14"/>
+                </svg>
+              </span>
+              <span>Publication de produit</span>
+            </a>
           </li>
         </ul>
       </nav>
@@ -51,7 +70,7 @@
       <!-- Profil vendeur en bas -->
       <div class="sidebar-footer">
         <div class="admin-profile">
-          <img src="" alt="Avatar" class="avatar">
+          <div class="avatar avatar-initials" id="vendorAvatar" aria-hidden="true"></div>
           <div class="admin-info">
             <span class="admin-name" id="vendorName"></span>
             <span class="admin-email" id="vendorEmail"></span>
@@ -67,9 +86,9 @@
       <!-- Barre du haut avec fil d'ariane -->
       <header class="topbar">
         <nav class="breadcrumb">
-          <a href="#">Produits</a>
+          <a href="/vendeur/produits.html">Produits</a>
           <span class="breadcrumb-sep">/</span>
-          <span class="breadcrumb-current">Détail du produit</span>
+          <span class="breadcrumb-current" id="breadcrumbCurrent">Modifier le produit</span>
         </nav>
         <div class="topbar-actions">
           <span class="icon-btn has-badge">
@@ -93,19 +112,20 @@
         <!-- En-tête du produit -->
         <div class="product-header">
           <div class="product-header-main">
-            <h1 class="product-title" id="productTitle"></h1>
+            <input type="text" class="product-title-input" id="editName" placeholder="Nom du produit" maxlength="50">
             <span class="status-badge" id="productStatusBadge">
               <span class="status-badge-dot"></span>
               <span id="productStatusLabel"></span>
             </span>
           </div>
           <div class="header-actions">
-            <button type="button" class="btn-outline-dark" id="btnEdit">
+            <button type="button" class="btn-primary-save" id="btnSave">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z"/>
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/>
+                <polyline points="17 21 17 13 7 13 7 21"/>
+                <polyline points="7 3 7 8 15 8"/>
               </svg>
-              Modifier
+              Enregistrer
             </button>
             <button type="button" class="btn-outline-danger" id="btnDelete">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -130,11 +150,12 @@
 
             <!-- Galerie -->
             <section class="card gallery-card">
+              <p class="gallery-hint" id="galleryHint">4 à 6 photos — cliquez sur + pour ajouter, × pour retirer</p>
               <div class="gallery-main">
                 <img src="" alt="" id="galleryMainImage">
               </div>
               <div class="gallery-thumbs" id="galleryThumbs">
-                <button type="button" class="thumb thumb-add">
+                <button type="button" class="thumb thumb-add" id="thumbAdd" title="Ajouter une photo">
                   <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="18" height="18" rx="2"/>
                     <path d="M12 8v8"/>
@@ -147,8 +168,8 @@
             <!-- Description -->
             <section class="card description-card">
               <h3>Description</h3>
-              <div id="productDescription"></div>
-              <ul class="feature-list" id="productFeatures"></ul>
+              <textarea class="edit-textarea" id="editDescription" rows="6" maxlength="2000" placeholder="Décrivez votre produit…"></textarea>
+              <p class="char-count"><span id="descCount">0</span> / 2000</p>
             </section>
 
           </div>
@@ -158,34 +179,21 @@
 
             <!-- Prix -->
             <section class="card price-card">
-              <p class="price-label">Prix de vente</p>
-              <p class="price-value" id="productPrice"></p>
+              <p class="price-label">Prix de vente (FCFA)</p>
+              <input type="number" class="edit-price" id="editPrice" min="0" step="1" placeholder="0">
 
               <div class="info-row">
-                <div class="info-item">
-                  <span class="info-label">Stock</span>
-                  <span class="info-value" id="productStock"></span>
-                </div>
-                <div class="info-item">
-                  <span class="info-label">Catégorie</span>
-                  <span class="info-value" id="productCategory"></span>
-                </div>
-              </div>
-
-              <div class="info-row">
-                <div class="info-item">
-                  <span class="info-label">Marque</span>
-                  <span class="info-value" id="productBrand"></span>
-                </div>
-                <div class="info-item">
-                  <span class="info-label">État</span>
-                  <span class="info-value" id="productCondition"></span>
+                <div class="info-item info-item-full">
+                  <label class="info-label" for="editCategory">Catégorie</label>
+                  <select class="edit-select" id="editCategory">
+                    <option value="">Sélectionner une catégorie</option>
+                  </select>
                 </div>
               </div>
             </section>
 
             <!-- Lien public -->
-            <section class="card link-card">
+            <section class="card link-card" id="linkCard" hidden>
               <div class="link-card-header">
                 <span class="link-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -263,6 +271,8 @@
   </div>
 
   <!-- Le JS sera relié ici à l'étape 3 -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/vendeur/vendor-common.js"></script>
   <script src="/js/vendeur/detail-produit-vendeur.js" defer></script>
 
 </body>

@@ -56,6 +56,9 @@ public class TypeUtilisateurService {
         return typeUtilisateurRepository.findById(id)
                 .map(typeUtilisateur -> {
                     typeUtilisateur.setLibelle_typeutilisateur(typeUtilisateurDetails.getLibelle_typeutilisateur());
+                    if (typeUtilisateurDetails.getDescription_typeutilisateur() != null) {
+                        typeUtilisateur.setDescription_typeutilisateur(typeUtilisateurDetails.getDescription_typeutilisateur());
+                    }
                     return typeUtilisateurRepository.save(typeUtilisateur);
                 })
                 .orElseThrow(() -> new RuntimeException("Type d'utilisateur non trouvé avec l'ID " + id));
@@ -66,6 +69,11 @@ public class TypeUtilisateurService {
      * @param id L'ID du type à supprimer.
      */
     public void deleteTypeUtilisateur(Long id) {
+        TypeUtilisateur type = typeUtilisateurRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Type d'utilisateur introuvable"));
+        if ("ADMIN".equals(type.getNom_typeutilisateur())) {
+            throw new RuntimeException("Le type administrateur ne peut pas être supprimé");
+        }
         typeUtilisateurRepository.deleteById(id);
     }
 }

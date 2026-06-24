@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.esgis2026.assigame.dto.admin.AdminVendorResponse;
 import com.esgis2026.assigame.dto.auth.UserResponse;
+import com.esgis2026.assigame.entity.TypeUtilisateur;
 import com.esgis2026.assigame.entity.Utilisateur;
+import com.esgis2026.assigame.repository.ProduitRepository;
 import com.esgis2026.assigame.repository.UtilisateurRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,14 @@ import lombok.RequiredArgsConstructor;
 public class AdminVendeurService {
 
     private final UtilisateurRepository utilisateurRepository;
+    private final ProduitRepository produitRepository;
+
+    @Transactional(readOnly = true)
+    public List<AdminVendorResponse> getAllVendeurs() {
+        return utilisateurRepository.findAllVendeursWithType().stream()
+                .map(this::toAdminVendorResponse)
+                .toList();
+    }
 
     /**
      * Liste les demandes d'inscription vendeur en attente de validation.
@@ -68,6 +79,24 @@ public class AdminVendeurService {
                 .sexe(user.getSexe_utilisateur())
                 .role(user.getId_typeutilisateur().getNom_typeutilisateur())
                 .statut(user.getStatut_compte())
+                .build();
+    }
+
+    private AdminVendorResponse toAdminVendorResponse(Utilisateur user) {
+        TypeUtilisateur type = user.getId_typeutilisateur();
+        return AdminVendorResponse.builder()
+                .id(user.getId_utilisateur())
+                .nom(user.getNom_utilisateur())
+                .prenom(user.getPrenom_utilisateur())
+                .email(user.getEmail_utilisateur())
+                .telephone(user.getTelephone_utilisateur())
+                .sexe(user.getSexe_utilisateur())
+                .role(type.getNom_typeutilisateur())
+                .roleLibelle(type.getLibelle_typeutilisateur())
+                .roleDescription(type.getDescription_typeutilisateur())
+                .statut(user.getStatut_compte())
+                .dateCreation(user.getDate_creation())
+                .nombreProduits(produitRepository.countByVendeurId(user.getId_utilisateur()))
                 .build();
     }
 }

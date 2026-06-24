@@ -1,6 +1,10 @@
 package com.esgis2026.assigame.entity;
 
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,12 +45,24 @@ public class Utilisateur {
     private String sexe_utilisateur;
 
     /** Mot de passe hashé (BCrypt) — jamais exposé au front */
+    @JsonIgnore
     @Column(nullable = false)
     private String mot_de_passe_utilisateur;
 
     /** ACTIF | EN_ATTENTE | REFUSE | SUSPENDU */
     @Column(nullable = false)
     private String statut_compte;
+
+    /** Date de création du compte */
+    @Column(nullable = true, updatable = false)
+    private LocalDateTime date_creation;
+
+    @PrePersist
+    public void definirDateCreation() {
+        if (this.date_creation == null) {
+            this.date_creation = LocalDateTime.now();
+        }
+    }
 
     @Override
     public int hashCode() {

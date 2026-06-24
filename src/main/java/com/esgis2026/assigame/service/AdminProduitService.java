@@ -17,8 +17,14 @@ public class AdminProduitService {
     private final ProduitRepository produitRepository;
     private final VendeurQuotaService vendeurQuotaService;
 
+    @Transactional(readOnly = true)
     public List<Produit> getDemandesEnAttente() {
-        return produitRepository.findByStatut(ProduitService.STATUT_EN_ATTENTE);
+        return produitRepository.findDemandesEnAttenteWithDetails();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Produit> getAllProduits() {
+        return produitRepository.findAllWithDetails();
     }
 
     @Transactional

@@ -28,4 +28,12 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> 
     @Query("SELECT u FROM Utilisateur u JOIN FETCH u.id_typeutilisateur WHERE u.id_utilisateur = ?1")
     Optional<Utilisateur> findByIdWithType(Long id_utilisateur);
 
+    @Query("""
+            SELECT u FROM Utilisateur u
+            JOIN FETCH u.id_typeutilisateur t
+            WHERE t.nom_typeutilisateur <> 'ADMIN'
+            ORDER BY u.date_creation DESC, u.id_utilisateur DESC
+            """)
+    List<Utilisateur> findAllVendeursWithType();
+
 }

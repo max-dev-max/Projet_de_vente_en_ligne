@@ -15,14 +15,23 @@ document.addEventListener('DOMContentLoaded', function () {
     errorEl.hidden = !message;
   }
 
+  function getRedirectUrl() {
+    var next = AssigameUtils.getQueryParam('next');
+    if (next && next.indexOf('/vendeur/') === 0) {
+      return next;
+    }
+    return VENDOR_SPACE;
+  }
+
   function redirectIfAlreadyLoggedIn() {
-    var user = AssigameAPI.getUser();
-    if (user && AssigameAPI.getToken() && !isAdminRole(user.role)) {
-      window.location.href = VENDOR_SPACE;
+    var user = AssigameAPI.getUser('vendor');
+    if (user && AssigameAPI.getToken('vendor') && !isAdminRole(user.role)) {
+      window.location.href = getRedirectUrl();
     }
   }
 
   redirectIfAlreadyLoggedIn();
+  AssigameUtils.initPasswordToggles();
   if (!form) return;
 
   form.addEventListener('submit', function (event) {
@@ -42,23 +51,22 @@ document.addEventListener('DOMContentLoaded', function () {
       submitBtn.textContent = 'Connexion…';
     }
 
-    AssigameAPI.login(email, password)
+    AssigameAPI.login(email, password, 'vendor')
       .then(function (res) {
-        var user = res.utilisateur || res.user || AssigameAPI.getUser();
+        var user = res.utilisateur || res.user || AssigameAPI.getUser('vendor');
         if (!user) {
-          AssigameAPI.logout();
+          AssigameAPI.clearScope('vendor');
           showError('Connexion OK mais profil introuvable.');
           return;
         }
         if (isAdminRole(user.role)) {
-          AssigameAPI.logout();
+          AssigameAPI.clearScope('vendor');
           showError('Ce compte est un compte admin.');
           return;
         }
-        window.location.href = VENDOR_SPACE;
+        window.location.href = getRedirectUrl();
       })
       .catch(function (err) {
-        // Back-end peut renvoyer { message: "..." } via GlobalExceptionHandler
         var msg = (err && err.data && err.data.message) ? err.data.message : (err && err.message) ? err.message : null;
         showError(msg || 'Connexion impossible. Vérifiez vos identifiants.');
         if (console && console.error) console.error(err);

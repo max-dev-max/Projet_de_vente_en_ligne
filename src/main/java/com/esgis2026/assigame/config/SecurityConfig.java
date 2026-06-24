@@ -36,9 +36,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index.html", "/*.html", "/css/**", "/js/**", "/images/**", "/uploads/**", "/admin/**", "/vendeur/**").permitAll()
+                        .requestMatchers("/", "/*.html", "/css/**", "/js/**", "/images/**", "/uploads/**", "/admin/**").permitAll()
+                        .requestMatchers("/vendeur/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/produits/mes-produits")
+                            .hasAnyRole("Particulier", "Professionnel", "Partenaire Vip", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/produits/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categorieproduit/**").permitAll()
                         .requestMatchers("/api/typeutilisateur/**").hasRole("ADMIN")

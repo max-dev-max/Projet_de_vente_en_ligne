@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Place Vendeur - Mes Produits</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/vendeur/dashboard.css">
+  <link rel="stylesheet" href="/css/vendeur/produits.css">
+  <script>window.ASSIGAME_AUTH_SCOPE='vendor';</script>
+  <script src="/js/vendeur/session.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/vendeur/auth-guard.js"></script>
+</head>
+<body>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+            <path d="M3 6h18"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </span>
+        <span class="logo-text">Place vendeur</span>
+      </div>
+
+      <nav class="nav-menu">
+        <ul>
+          <li>
+            <a href="/vendeur/dashboard.html" class="nav-item" data-page="dashboard">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="9" rx="1"/>
+                  <rect x="14" y="3" width="7" height="5" rx="1"/>
+                  <rect x="14" y="12" width="7" height="9" rx="1"/>
+                  <rect x="3" y="16" width="7" height="5" rx="1"/>
+                </svg>
+              </span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="/vendeur/produits.html" class="nav-item" data-page="produits">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+                  <path d="m3.3 7 8.7 5 8.7-5"/>
+                  <path d="M12 22V12"/>
+                </svg>
+              </span>
+              <span>Produits</span>
+            </a>
+          </li>
+          <li>
+            <a href="/vendeur/produits-ajout.html" class="nav-item" data-page="publication">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 5v14"/>
+                  <path d="M5 12h14"/>
+                </svg>
+              </span>
+              <span>Publication de produit</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <div class="avatar avatar-initials" id="vendorAvatar" aria-hidden="true"></div>
+          <div class="admin-info">
+            <span class="admin-name" id="vendorName"></span>
+            <span class="admin-email" id="vendorEmail"></span>
+          </div>
+        </div>
+        <span class="logout-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </span>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <h1>Mes Produits</h1>
+        <div class="topbar-actions">
+          <span class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+          </span>
+        </div>
+      </header>
+
+      <main class="products-body">
+        <section class="products-header">
+          <div class="products-header-row">
+            <div>
+              <h2>Mes Produits</h2>
+              <p>Gérez votre catalogue, mettez à jour les prix et suivez l'état de vos articles.</p>
+            </div>
+            <a href="/vendeur/produits-ajout.html" class="btn-add-product">+ Ajouter un produit</a>
+          </div>
+
+          <div class="products-toolbar">
+            <div class="search-box">
+              <span class="search-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.3-4.3"/>
+                </svg>
+              </span>
+              <input type="search" id="searchInput" placeholder="Rechercher un produit...">
+            </div>
+            <select class="filter-select" id="statusFilter" aria-label="Filtrer par statut">
+              <option value="">Tous les statuts</option>
+              <option value="ACTIF">Actif</option>
+              <option value="EN_ATTENTE">En attente</option>
+              <option value="REFUSE">Refusé</option>
+              <option value="SUSPENDU">Suspendu</option>
+            </select>
+            <select class="filter-select" id="categoryFilter" aria-label="Filtrer par catégorie">
+              <option value="">Toutes catégories</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="table-card">
+          <div class="products-table-wrap">
+            <table class="products-table">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Nom du produit</th>
+                  <th>Catégorie</th>
+                  <th>Prix</th>
+                  <th>Statut</th>
+                  <th>Date d'ajout</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody">
+                <tr>
+                  <td colspan="7" class="table-empty">Chargement des produits…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <span id="productsTableCount">Affichage de 0 produit</span>
+            <div class="pagination" id="productsPagination"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/vendeur/vendor-common.js"></script>
+  <script src="/js/vendeur/produits.js"></script>
+</body>
+</html>

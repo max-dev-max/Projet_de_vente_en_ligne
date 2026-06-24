@@ -12,6 +12,47 @@ document.addEventListener('DOMContentLoaded', async function () {
   var breadcrumbCurrent = document.querySelector('.breadcrumb .current');
   var similarGrid = document.getElementById('similarGrid');
   var thumbRow = document.querySelector('.thumb-row');
+  var sellerNameEl = document.getElementById('sellerName');
+  var sellerAvatarEl = document.querySelector('.seller-avatar');
+  var contactSellerBtn = document.getElementById('contactSellerBtn');
+  var contactSellerLabel = document.getElementById('contactSellerLabel');
+  var currentSeller = null;
+
+  function formatSellerName(vendeur) {
+    if (!vendeur) return 'Vendeur';
+    var full = ((vendeur.prenom_utilisateur || '') + ' ' + (vendeur.nom_utilisateur || '')).trim();
+    return full || 'Vendeur';
+  }
+
+  function formatSellerInitials(vendeur) {
+    if (!vendeur) return 'V';
+    var prenom = (vendeur.prenom_utilisateur || '').charAt(0);
+    var nom = (vendeur.nom_utilisateur || '').charAt(0);
+    var initials = (prenom + nom).toUpperCase();
+    return initials || 'V';
+  }
+
+  function formatSellerPhone(vendeur) {
+    return vendeur && vendeur.telephone_utilisateur
+      ? String(vendeur.telephone_utilisateur).trim()
+      : '';
+  }
+
+  function updateContactSellerButton(vendeur) {
+    if (!contactSellerBtn || !contactSellerLabel) return;
+    var name = formatSellerName(vendeur);
+    var phone = formatSellerPhone(vendeur);
+    contactSellerLabel.textContent = phone
+      ? 'Contacter ' + name + ' · ' + phone
+      : 'Contacter ' + name;
+    if (phone) {
+      contactSellerBtn.href = 'tel:' + phone.replace(/\s/g, '');
+      contactSellerBtn.setAttribute('aria-label', 'Contacter ' + name + ' au ' + phone);
+    } else {
+      contactSellerBtn.href = '#';
+      contactSellerBtn.setAttribute('aria-label', 'Contacter ' + name);
+    }
+  }
 
   function parseImages(imageCsv) {
     if (!imageCsv) return [];
@@ -41,15 +82,13 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   function bindActions() {
-    var addToCartBtn = document.getElementById('addToCartBtn');
-    if (addToCartBtn) {
-      addToCartBtn.addEventListener('click', function () {
-        toast((titleEl ? titleEl.textContent.trim() : 'Produit') + ' ajouté au panier');
+    if (contactSellerBtn) {
+      contactSellerBtn.addEventListener('click', function (event) {
+        if (!formatSellerPhone(currentSeller)) {
+          event.preventDefault();
+          toast('Numéro du vendeur indisponible');
+        }
       });
-    }
-    var buyNowBtn = document.getElementById('buyNowBtn');
-    if (buyNowBtn) {
-      buyNowBtn.addEventListener('click', function () { toast('Fonctionnalité paiement à venir'); });
     }
     var favLink = document.getElementById('favLink');
     if (favLink) {
@@ -79,7 +118,10 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (productRef) productRef.textContent = 'Réf : ' + produit.id_produit;
       if (priceNow) priceNow.textContent = AssigameUtils.formatPriceFCFA(produit.prix);
       if (priceOld) priceOld.style.display = 'none';
-      if (productSubtitle) productSubtitle.textContent = produit.description || '';
+
+      var catName = produit.idcategorie_produit && produit.idcategorie_produit.nom_categorieproduit
+        ? produit.idcategorie_produit.nom_categorieproduit : 'Non classé';
+      if (productSubtitle) productSubtitle.textContent = catName;
       if (descText) descText.innerHTML = '<p>' + (produit.description || 'Aucune description.') + '</p>';
       var images = parseImages(produit.image);
       if (mainImage) {
@@ -90,8 +132,11 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (breadcrumbCurrent) breadcrumbCurrent.textContent = produit.nom_produit || 'Produit';
       document.title = (produit.nom_produit || 'Produit') + ' - Assigame';
 
-      var catName = produit.idcategorie_produit && produit.idcategorie_produit.nom_categorieproduit
-        ? produit.idcategorie_produit.nom_categorieproduit : 'Catalogue';
+      if (sellerNameEl) sellerNameEl.textContent = formatSellerName(produit.id_utilisateur);
+      if (sellerAvatarEl) sellerAvatarEl.textContent = formatSellerInitials(produit.id_utilisateur);
+      currentSeller = produit.id_utilisateur || null;
+      updateContactSellerButton(produit.id_utilisateur);
+
       var catLink = document.querySelector('.breadcrumb a:nth-child(2)');
       if (catLink) catLink.textContent = catName;
 
@@ -103,36 +148,71 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   }
 
-  async function loadSimilar(current) {
+  function renderSimilarCards(products) {
     if (!similarGrid) return;
+    if (!products || !products.length) {
+      similarGrid.innerHTML = '<p class="similar-empty">Aucun autre produit dans cette catégorie pour le moment.</p>';
+      return;
+    }
+
+    similarGrid.innerHTML = products.map(function (p) {
+      var catName = p.idcategorie_produit && p.idcategorie_produit.nom_categorieproduit
+        ? p.idcategorie_produit.nom_categorieproduit : '';
+      var img = (p.image ? p.image.split(',')[0].trim() : '') || AssigameUtils.placeholderImage();
+      return (
+        '<a class="similar-card" href="/fiche-produit.html?id=' + p.id_produit + '">' +
+          '<div class="similar-media">' +
+            '<span class="similar-tag">' + catName + '</span>' +
+            '<img src="' + img + '" alt="' + (p.nom_produit || 'Produit') + '">' +
+          '</div>' +
+          '<div class="similar-body">' +
+            '<p class="similar-title">' + (p.nom_produit || 'Produit') + '</p>' +
+            '<span class="similar-price">' + AssigameUtils.formatPriceFCFA(p.prix) + '</span>' +
+          '</div>' +
+        '</a>'
+      );
+    }).join('');
+  }
+
+  function extractCategoryId(produit) {
+    if (!produit || !produit.idcategorie_produit) return null;
+    var cat = produit.idcategorie_produit;
+    if (typeof cat === 'number' || typeof cat === 'string') return Number(cat);
+    return cat.idcategorie_produit != null ? Number(cat.idcategorie_produit) : null;
+  }
+
+  async function loadSimilar(current) {
+    if (!similarGrid || !current) return;
+    similarGrid.innerHTML = '<p class="similar-empty">Chargement des produits similaires…</p>';
+
+    try {
+      var similar = await AssigameAPI.getProduitsSimilaires(current.id_produit);
+      renderSimilarCards(similar);
+      return;
+    } catch (apiErr) {
+      /* repli : filtre côté client sur le catalogue public */
+    }
+
     try {
       var all = await AssigameAPI.getProduits();
-      var catId = current.idcategorie_produit && current.idcategorie_produit.idcategorie_produit;
-      var similar = all.filter(function (p) {
-        return p.id_produit !== current.id_produit && p.statut === 'ACTIF' &&
-          p.idcategorie_produit && p.idcategorie_produit.idcategorie_produit === catId;
+      var catId = extractCategoryId(current);
+      var catName = current.idcategorie_produit && current.idcategorie_produit.nom_categorieproduit;
+
+      var similar = (all || []).filter(function (p) {
+        if (Number(p.id_produit) === Number(current.id_produit)) return false;
+        if (catId != null) {
+          return extractCategoryId(p) === catId;
+        }
+        if (catName && p.idcategorie_produit) {
+          return p.idcategorie_produit.nom_categorieproduit === catName;
+        }
+        return false;
       }).slice(0, 4);
 
-      if (!similar.length) {
-        similarGrid.innerHTML = '<p class="similar-empty">Aucun produit similaire pour le moment.</p>';
-        return;
-      }
-
-      similarGrid.innerHTML = similar.map(function (p) {
-        return (
-          '<a class="similar-card" href="/fiche-produit.html?id=' + p.id_produit + '">' +
-            '<div class="similar-media">' +
-              '<span class="similar-tag">' + (p.idcategorie_produit ? p.idcategorie_produit.nom_categorieproduit : '') + '</span>' +
-              '<img src="' + ((p.image ? p.image.split(',')[0].trim() : '') || AssigameUtils.placeholderImage()) + '" alt="' + p.nom_produit + '">' +
-            '</div>' +
-            '<div class="similar-body">' +
-              '<p class="similar-title">' + p.nom_produit + '</p>' +
-              '<span class="similar-price">' + AssigameUtils.formatPriceFCFA(p.prix) + '</span>' +
-            '</div>' +
-          '</a>'
-        );
-      }).join('');
-    } catch (e) { /* silencieux */ }
+      renderSimilarCards(similar);
+    } catch (e) {
+      similarGrid.innerHTML = '<p class="similar-empty">Impossible de charger les produits similaires.</p>';
+    }
   }
 
   await loadProduit();

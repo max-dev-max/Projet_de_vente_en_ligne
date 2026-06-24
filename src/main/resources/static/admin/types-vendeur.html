@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Types de vendeur - Assigame Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/global.css">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+  <script>window.ASSIGAME_AUTH_SCOPE='admin';</script>
+  <script src="/js/admin/session.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/admin/auth-guard.js"></script>
+  <script src="/js/admin/common.js"></script>
+</head>
+<body class="app-layout" data-admin-page="types-vendeur">
+
+  <aside class="sidebar" aria-label="Navigation admin">
+    <div class="sidebar-header"><i class="ph ph-shield-check"></i> Assigame Admin</div>
+    <nav class="sidebar-nav">
+      <a href="/admin/administration.html" class="nav-link" data-page="dashboard"><i class="ph ph-squares-four"></i> Dashboard</a>
+      <a href="/admin/demandes-vendeur.html" class="nav-link" data-page="demandes-vendeur"><i class="ph ph-users-three"></i> Demandes vendeur</a>
+      <a href="/admin/vendeurs.html" class="nav-link" data-page="vendeurs"><i class="ph ph-storefront"></i> Tous les vendeurs</a>
+      <a href="/admin/demandes-produits.html" class="nav-link" data-page="demandes-produits"><i class="ph ph-package"></i> Produits en attente</a>
+      <a href="/admin/moderation-produits.html" class="nav-link" data-page="moderation-produits"><i class="ph ph-list-bullets"></i> Tous les produits</a>
+      <a href="/admin/categories.html" class="nav-link" data-page="categories"><i class="ph ph-grid-four"></i> Catégories</a>
+      <a href="/admin/types-vendeur.html" class="nav-link" data-page="types-vendeur"><i class="ph ph-tag"></i> Types vendeur</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <h1 class="topbar-title">Types de vendeur</h1>
+      <div class="d-flex gap-4">
+        <button type="button" class="btn btn-secondary" id="btnLogout"><i class="ph ph-sign-out"></i> Déconnexion</button>
+      </div>
+    </header>
+    <div class="page-content">
+      <div class="mb-6">
+        <h2 style="margin:0;">Gestion des offres vendeur</h2>
+        <p style="margin:4px 0 0;color:var(--text-sub);">Modifiez le nom et la description des offres vendeur existantes.</p>
+      </div>
+      <div class="table-card">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom technique</th>
+              <th>Libellé</th>
+              <th>Description</th>
+              <th class="num">Vendeurs actifs</th>
+              <th class="actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="typesTableBody">
+            <tr><td colspan="5">Chargement…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="typeModal" hidden>
+    <div class="modal-card" role="dialog" aria-labelledby="typeModalTitle">
+      <h2 id="typeModalTitle">Modifier le type de vendeur</h2>
+      <p id="typeTechnicalName" class="filter-hint" style="margin:0 0 16px;"></p>
+      <form id="typeForm">
+        <div class="form-group">
+          <label class="form-label" for="libelle_typeutilisateur">Nom du type *</label>
+          <input class="form-control" id="libelle_typeutilisateur" name="libelle_typeutilisateur" maxlength="80" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="description_typeutilisateur">Description *</label>
+          <textarea class="form-control" id="description_typeutilisateur" name="description_typeutilisateur" rows="4" maxlength="255" required></textarea>
+        </div>
+        <div class="d-flex gap-4 justify-between">
+          <button type="button" class="btn btn-secondary" data-close-modal>Annuler</button>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+  <script src="/js/utils.js"></script>
+  <script src="/js/admin/types-vendeur.js"></script>
+</body>
+</html>

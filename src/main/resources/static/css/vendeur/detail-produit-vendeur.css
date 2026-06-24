@@ -74,6 +74,7 @@ img { display: block; max-width: 100%; }
   color: var(--color-text-muted);
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease;
+  text-decoration: none;
 }
 
 .nav-item:hover { background: var(--color-bg); }
@@ -99,7 +100,25 @@ img { display: block; max-width: 100%; }
 
 .admin-profile { display: flex; align-items: center; gap: 10px; }
 
-.avatar { width: 36px; height: 36px; border-radius: 50%; }
+.avatar,
+.avatar-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.avatar-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6B4A35, #4A2E1B);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
 
 .admin-info { display: flex; flex-direction: column; }
 
@@ -181,6 +200,154 @@ img { display: block; max-width: 100%; }
 }
 
 .product-title { font-size: 26px; font-weight: 700; max-width: 520px; }
+
+.product-title-input {
+  font-family: inherit;
+  font-size: 26px;
+  font-weight: 700;
+  max-width: 520px;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  background: transparent;
+  color: var(--color-text);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.product-title-input:hover,
+.product-title-input:focus {
+  border-color: var(--color-border);
+  background: var(--color-white);
+  outline: none;
+}
+
+.edit-textarea,
+.edit-price,
+.edit-select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--color-white);
+  color: var(--color-text);
+  transition: border-color 0.15s ease;
+}
+
+.edit-textarea:focus,
+.edit-price:focus,
+.edit-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.edit-textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.edit-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 6px 0 18px;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: 4px 0;
+}
+
+.edit-price:focus { border-bottom-color: var(--color-primary); }
+
+.char-count {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: right;
+  margin-top: 8px;
+}
+
+.info-item-full { grid-column: 1 / -1; }
+
+.gallery-hint {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.btn-primary-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 40px;
+  cursor: pointer;
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-white);
+  transition: opacity 0.15s ease;
+}
+
+.btn-primary-save:hover { opacity: 0.9; }
+
+.btn-primary-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-primary-save svg { width: 15px; height: 15px; stroke: currentColor; }
+
+.status-badge.attente { background: var(--color-warning-bg); color: var(--color-warning); }
+.status-badge.attente .status-badge-dot { background: var(--color-warning); }
+.status-badge.refuse { background: var(--color-danger-bg); color: var(--color-danger); }
+.status-badge.refuse .status-badge-dot { background: var(--color-danger); }
+.status-badge.suspendu { background: #f3f4f6; color: #6b7280; }
+.status-badge.suspendu .status-badge-dot { background: #6b7280; }
+
+.thumb-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.thumb-remove {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-danger);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.thumb-remove:hover { opacity: 0.9; }
+
+.page-loading,
+.page-error {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--color-text-muted);
+}
+
+.page-error a { color: var(--color-primary); font-weight: 600; }
+
+.deleted-message {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.deleted-message p { margin-bottom: 8px; font-size: 15px; }
 
 .status-badge {
   display: inline-flex;

@@ -1,22 +1,30 @@
 /**
- * Client API Assigame — aligné sur les endpoints Spring Boot (localhost:8080).
- * Stocke le JWT dans localStorage sous la clé assigame_token.
+ * Client API Assigame — sessions séparées admin / vendeur.
  */
 (function (global) {
   'use strict';
 
   var API_BASE = global.ASSIGAME_API_BASE || '';
 
-  function getToken() {
-    return localStorage.getItem('assigame_token');
+  var STORAGE = {
+    admin: { token: 'assigame_admin_token', user: 'assigame_admin_user' },
+    vendor: { token: 'assigame_vendor_token', user: 'assigame_vendor_user' }
+  };
+
+  function resolveScope() {
+    if (global.ASSIGAME_AUTH_SCOPE === 'admin' || global.ASSIGAME_AUTH_SCOPE === 'vendor') {
+      return global.ASSIGAME_AUTH_SCOPE;
+    }
+    var path = global.location.pathname || '';
+    if (path.indexOf('/admin/') === 0) return 'admin';
+    if (path.indexOf('/vendeur/') === 0) return 'vendor';
+    if (path.indexOf('connexion-vendeur') >= 0 || path.indexOf('devenir-vendeur') >= 0 || path.indexOf('choix-offre-vendeur') >= 0) {
+      return 'vendor';
+    }
+    return null;
   }
 
-  function setToken(token) {
-    if (token) localStorage.setItem('assigame_token', token);
-    else localStorage.removeItem('assigame_token');
-  }
-
-  function getUser() {
+  function readLegacyUser() {
     try {
       var raw = localStorage.getItem('assigame_user');
       return raw ? JSON.parse(raw) : null;
@@ -25,9 +33,113 @@
     }
   }
 
-  function setUser(user) {
-    if (user) localStorage.setItem('assigame_user', JSON.stringify(user));
-    else localStorage.removeItem('assigame_user');
+  function migrateLegacySession(scope) {
+    var legacyToken = localStorage.getItem('assigame_token');
+    var legacyUser = readLegacyUser();
+    if (!legacyToken || !legacyUser) return;
+
+    var isAdmin = legacyUser.role === 'ADMIN';
+    if (scope === 'admin' && isAdmin) {
+      localStorage.setItem(STORAGE.admin.token, legacyToken);
+      localStorage.setItem(STORAGE.admin.user, JSON.stringify(legacyUser));
+    } else if (scope === 'vendor' && !isAdmin) {
+      localStorage.setItem(STORAGE.vendor.token, legacyToken);
+      localStorage.setItem(STORAGE.vendor.user, JSON.stringify(legacyUser));
+    }
+  }
+
+  function getScopeKeys(scope) {
+    scope = scope || resolveScope();
+    return scope ? STORAGE[scope] : null;
+  }
+
+  function getToken(scope) {
+    var keys = getScopeKeys(scope);
+    if (keys) {
+      var scoped = localStorage.getItem(keys.token);
+      if (scoped) return scoped;
+      migrateLegacySession(scope);
+      scoped = localStorage.getItem(keys.token);
+      if (scoped) return scoped;
+    }
+    return localStorage.getItem('assigame_token');
+  }
+
+  function setToken(token, scope) {
+    scope = scope || resolveScope();
+    if (scope && STORAGE[scope]) {
+      if (token) localStorage.setItem(STORAGE[scope].token, token);
+      else localStorage.removeItem(STORAGE[scope].token);
+    }
+    if (!token) localStorage.removeItem('assigame_token');
+    else if (!scope) localStorage.setItem('assigame_token', token);
+  }
+
+  function getUser(scope) {
+    try {
+      var keys = getScopeKeys(scope);
+      if (keys) {
+        var raw = localStorage.getItem(keys.user);
+        if (raw) return JSON.parse(raw);
+        migrateLegacySession(scope);
+        raw = localStorage.getItem(keys.user);
+        if (raw) return JSON.parse(raw);
+      }
+      return readLegacyUser();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setUser(user, scope) {
+    scope = scope || resolveScope();
+    if (scope && STORAGE[scope]) {
+      if (user) localStorage.setItem(STORAGE[scope].user, JSON.stringify(user));
+      else localStorage.removeItem(STORAGE[scope].user);
+    }
+    if (!user) localStorage.removeItem('assigame_user');
+    else if (!scope) localStorage.setItem('assigame_user', JSON.stringify(user));
+  }
+
+  function clearLegacyIfMatches(scope) {
+    var legacyUser = readLegacyUser();
+    if (!legacyUser) return;
+    var isAdmin = legacyUser.role === 'ADMIN';
+    if (scope === 'admin' && isAdmin) {
+      localStorage.removeItem('assigame_token');
+      localStorage.removeItem('assigame_user');
+    } else if (scope === 'vendor' && !isAdmin) {
+      localStorage.removeItem('assigame_token');
+      localStorage.removeItem('assigame_user');
+    }
+  }
+
+  function clearScope(scope) {
+    if (!scope || !STORAGE[scope]) return;
+    localStorage.removeItem(STORAGE[scope].token);
+    localStorage.removeItem(STORAGE[scope].user);
+    clearLegacyIfMatches(scope);
+  }
+
+  function logout(scope) {
+    scope = scope || resolveScope();
+    if (scope) {
+      clearScope(scope);
+      return;
+    }
+    localStorage.removeItem('assigame_token');
+    localStorage.removeItem('assigame_user');
+    clearScope('admin');
+    clearScope('vendor');
+  }
+
+  function persistLogin(res, scope) {
+    var user = res.utilisateur || res.user || null;
+    scope = scope || resolveScope() || (user && user.role === 'ADMIN' ? 'admin' : 'vendor');
+
+    if (res.token) setToken(res.token, scope);
+    if (user) setUser(user, scope);
+    return res;
   }
 
   async function request(path, options) {
@@ -59,46 +171,45 @@
   }
 
   global.AssigameAPI = {
+    resolveScope: resolveScope,
     getToken: getToken,
     setToken: setToken,
     getUser: getUser,
     setUser: setUser,
-    logout: function () {
-      setToken(null);
-      setUser(null);
-    },
+    logout: logout,
+    clearScope: clearScope,
 
-    /* ---- Auth ---- */
     register: function (payload) {
       return request('/api/auth/register', { method: 'POST', body: payload });
     },
-    login: function (email, motDePasse) {
+    login: function (email, motDePasse, scope) {
       return request('/api/auth/login', {
         method: 'POST',
         body: { email: email, motDePasse: motDePasse }
       }).then(function (res) {
-        if (res.token) setToken(res.token);
-        if (res.utilisateur) setUser(res.utilisateur);
-        else if (res.user) setUser(res.user);
-        return res;
+        return persistLogin(res, scope || resolveScope());
       });
     },
     me: function () {
       return request('/api/auth/me');
     },
 
-    /* ---- Catalogue (public) ---- */
     getProduits: function () {
       return request('/api/produits/list');
     },
+    getMesProduits: function () {
+      return request('/api/produits/mes-produits');
+    },
     getProduit: function (id) {
       return request('/api/produits/search/' + id);
+    },
+    getProduitsSimilaires: function (id) {
+      return request('/api/produits/search/' + id + '/similaires');
     },
     getCategories: function () {
       return request('/api/categorieproduit/list');
     },
 
-    /* ---- Vendeur ---- */
     uploadProduitImages: function (files) {
       var formData = new FormData();
       Array.prototype.forEach.call(files, function (file) {
@@ -136,7 +247,6 @@
       return request('/api/produits/delete/' + id, { method: 'DELETE' });
     },
 
-    /* ---- Admin ---- */
     getDemandesVendeur: function () {
       return request('/api/admin/demandes-vendeur/list');
     },
@@ -148,6 +258,12 @@
     },
     getDemandesProduits: function () {
       return request('/api/admin/demandes-produits/list');
+    },
+    getAdminProduits: function () {
+      return request('/api/admin/produits/list');
+    },
+    getAdminVendeurs: function () {
+      return request('/api/admin/demandes-vendeur/catalogue');
     },
     getProduitModeration: function (id) {
       return request('/api/admin/demandes-produits/search/' + id);
@@ -175,6 +291,18 @@
     },
     deleteCategorie: function (nom) {
       return request('/api/categorieproduit/delete/' + encodeURIComponent(nom), { method: 'DELETE' });
+    },
+    getTypeUtilisateurs: function () {
+      return request('/api/typeutilisateur/list');
+    },
+    createTypeUtilisateur: function (payload) {
+      return request('/api/typeutilisateur/create', { method: 'POST', body: payload });
+    },
+    updateTypeUtilisateur: function (id, payload) {
+      return request('/api/typeutilisateur/update/' + id, { method: 'PUT', body: payload });
+    },
+    deleteTypeUtilisateur: function (id) {
+      return request('/api/typeutilisateur/delete/' + id, { method: 'DELETE' });
     }
   };
 })(window);

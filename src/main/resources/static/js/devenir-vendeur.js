@@ -5,11 +5,18 @@ document.addEventListener('DOMContentLoaded', function () {
   var choosePlanBtn = document.getElementById('choosePlanBtn');
   if (!form) return;
 
+  AssigameUtils.initPasswordToggles(form);
+
+  function fieldErrorMsg(field) {
+    var container = field.closest('.field');
+    return container ? container.querySelector('.field-error-msg') : null;
+  }
+
   function validateForm() {
     var valid = true;
 
     form.querySelectorAll('[required]').forEach(function (field) {
-      var errorMsg = field.parentElement.querySelector('.field-error-msg');
+      var errorMsg = fieldErrorMsg(field);
       var isEmpty = field.type === 'radio'
         ? !form.querySelector('input[name="' + field.name + '"]:checked')
         : !String(field.value).trim();
@@ -71,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
   form.querySelectorAll('input, textarea').forEach(function (field) {
     field.addEventListener('input', function () {
       field.classList.remove('field-error');
-      var errorMsg = field.parentElement.querySelector('.field-error-msg');
+      var errorMsg = fieldErrorMsg(field);
       if (errorMsg) errorMsg.classList.remove('show');
     });
   });

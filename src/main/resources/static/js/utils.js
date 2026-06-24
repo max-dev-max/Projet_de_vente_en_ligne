@@ -51,8 +51,10 @@
   }
 
   function requireAuth(role) {
-    var user = AssigameAPI.getUser();
-    if (!AssigameAPI.getToken() || !user) {
+    var scope = AssigameAPI.resolveScope && AssigameAPI.resolveScope();
+    var user = scope ? AssigameAPI.getUser(scope) : AssigameAPI.getUser();
+    var token = scope ? AssigameAPI.getToken(scope) : AssigameAPI.getToken();
+    if (!token || !user) {
       showToast('Connexion requise');
       return false;
     }
@@ -71,6 +73,25 @@
     return 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80';
   }
 
+  function initPasswordToggles(root) {
+    var scope = root || document;
+    scope.querySelectorAll('.password-field').forEach(function (wrapper) {
+      var input = wrapper.querySelector('input');
+      var btn = wrapper.querySelector('.toggle-password');
+      if (!input || !btn || btn.dataset.bound === 'true') return;
+      btn.dataset.bound = 'true';
+
+      btn.addEventListener('click', function (event) {
+        event.preventDefault();
+        var isVisible = input.type === 'text';
+        input.type = isVisible ? 'password' : 'text';
+        btn.classList.toggle('is-visible', !isVisible);
+        btn.setAttribute('aria-pressed', isVisible ? 'false' : 'true');
+        btn.setAttribute('aria-label', isVisible ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
+      });
+    });
+  }
+
   global.AssigameUtils = {
     showToast: showToast,
     formatPriceFCFA: formatPriceFCFA,
@@ -79,6 +100,7 @@
     statutLabel: statutLabel,
     requireAuth: requireAuth,
     getQueryParam: getQueryParam,
-    placeholderImage: placeholderImage
+    placeholderImage: placeholderImage,
+    initPasswordToggles: initPasswordToggles
   };
 })(window);

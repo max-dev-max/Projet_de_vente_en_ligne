@@ -23,21 +23,38 @@ document.addEventListener('DOMContentLoaded', async function () {
     editingNom = null;
   }
 
+  function countProductsByCategory(products) {
+    var counts = {};
+    (products || []).forEach(function (product) {
+      var category = product.idcategorie_produit;
+      if (!category || category.idcategorie_produit == null) return;
+      var id = category.idcategorie_produit;
+      counts[id] = (counts[id] || 0) + 1;
+    });
+    return counts;
+  }
+
   async function load() {
     if (!tbody) return;
     tbody.innerHTML = '<tr><td colspan="4">Chargement…</td></tr>';
     try {
-      var cats = await AssigameAPI.getCategories();
+      var results = await Promise.all([
+        AssigameAPI.getCategories(),
+        AssigameAPI.getAdminProduits()
+      ]);
+      var cats = results[0];
+      var productCounts = countProductsByCategory(results[1]);
       if (!cats.length) {
         tbody.innerHTML = '<tr><td colspan="4">Créez votre première catégorie.</td></tr>';
         return;
       }
       tbody.innerHTML = cats.map(function (c) {
+        var count = productCounts[c.idcategorie_produit] || 0;
         return (
           '<tr class="cat-row" data-nom="' + c.nom_categorieproduit.replace(/"/g, '&quot;') + '">' +
             '<td><div class="cat-name"><span class="cat-icon icon-violet"><i class="ph ph-grid-four"></i></span>' + c.nom_categorieproduit + '</div></td>' +
             '<td class="desc-cell">' + c.description + '</td>' +
-            '<td class="num count-cell">—</td>' +
+            '<td class="num count-cell">' + count + '</td>' +
             '<td class="actions"><span class="row-actions">' +
               '<button type="button" class="icon-btn btn-edit" title="Modifier"><i class="ph ph-pencil-simple"></i></button>' +
               '<button type="button" class="icon-btn danger btn-delete" title="Supprimer"><i class="ph ph-trash"></i></button>' +

@@ -48,6 +48,15 @@ public class ProduitController {
     }
 
     /**
+     * Liste les produits du vendeur connecté (tous statuts).
+     * @return Produits appartenant à l'utilisateur authentifié.
+     */
+    @GetMapping("/mes-produits")
+    public List<Produit> getMesProduits() {
+        return produitService.getMesProduits();
+    }
+
+    /**
      * Récupère les détails d'un produit visible sur la plateforme (statut ACTIF).
      * @param id Identifiant du produit.
      * @return Produit correspondant ou vide s'il n'existe pas ou n'est pas publié.
@@ -55,6 +64,14 @@ public class ProduitController {
     @GetMapping("/search/{id}")
     public Optional<Produit> getProduitById(@PathVariable Long id) {
         return produitService.getProduitPublicById(id);
+    }
+
+    /**
+     * Produits actifs de la même catégorie que le produit consulté (hors produit courant).
+     */
+    @GetMapping("/search/{id}/similaires")
+    public List<Produit> getProduitsSimilaires(@PathVariable Long id) {
+        return produitService.getProduitsSimilaires(id);
     }
 
     /**

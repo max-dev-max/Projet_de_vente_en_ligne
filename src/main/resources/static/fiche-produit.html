@@ -61,24 +61,22 @@
         <span class="price-now">—</span>
         <span class="price-old">—</span>
       </div>
-      <p class="product-subtitle"></p>
+      <p class="product-subtitle" id="productCategory">Catégorie</p>
 
       <div class="seller-row">
         <div class="seller-avatar"></div>
         <div class="seller-info">
-          <div class="seller-name">Vendeur Assigame</div>
+          <div class="seller-name" id="sellerName">Vendeur</div>
           <div class="seller-rating"><i class="ph-fill ph-star"></i> —</div>
         </div>
         <button type="button" class="chat-icon-btn" aria-label="Contacter le vendeur"><i class="ph ph-chat-circle-text"></i></button>
       </div>
 
       <div class="action-row">
-        <button type="button" class="btn-secondary" id="addToCartBtn">
-          <i class="ph ph-shopping-cart"></i> Ajouter au panier
-        </button>
-        <button type="button" class="btn-buy" id="buyNowBtn">
-          <i class="ph-fill ph-lightning"></i> Acheter maintenant
-        </button>
+        <a class="btn-contact-seller" id="contactSellerBtn" href="#">
+          <i class="ph ph-phone"></i>
+          <span id="contactSellerLabel">Contacter le vendeur</span>
+        </a>
       </div>
 
       <div class="secondary-actions">

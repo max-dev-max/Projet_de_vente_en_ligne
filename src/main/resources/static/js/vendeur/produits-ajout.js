@@ -2,6 +2,8 @@
 // script.js — page "Ajouter un produit"
 // ============================================
 
+const PRODUCTS_URL = '/vendeur/produits.html';
+
 const MIN_FILES = 4;
 const MAX_FILES = 6;
 const MAX_SIZE_MB = 5;
@@ -192,11 +194,7 @@ btnCancel.addEventListener("click", () => {
     return;
   }
 
-  productForm.reset();
-  uploadedFiles.forEach(item => URL.revokeObjectURL(item.url));
-  uploadedFiles = [];
-  renderThumbs();
-  markUnsaved();
+  window.location.href = PRODUCTS_URL;
 });
 
 btnDraft.addEventListener("click", () => {
@@ -295,5 +293,9 @@ async function loadCategories() {
 }
 
 // ===== 10. Initialisation =====
-renderThumbs();
-loadCategories();
+document.addEventListener('DOMContentLoaded', function () {
+  if (!VendorCommon.initVendorSession()) return;
+  VendorCommon.initVendorSidebar('publication');
+  renderThumbs();
+  loadCategories();
+});

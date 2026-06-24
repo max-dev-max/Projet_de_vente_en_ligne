@@ -3,6 +3,14 @@ document.addEventListener('DOMContentLoaded', async function () {
   var tbody = document.getElementById('produitsBody');
   if (!tbody) return;
 
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   async function load() {
     tbody.innerHTML = '<tr><td colspan="7">Chargement…</td></tr>';
     try {
@@ -17,18 +25,23 @@ document.addEventListener('DOMContentLoaded', async function () {
         return (
           '<tr>' +
             '<td><input type="checkbox" aria-label="Sélectionner"></td>' +
-            '<td><strong>' + p.nom_produit + '</strong></td>' +
-            '<td>' + vendeur + '</td>' +
-            '<td>' + cat + '</td>' +
-            '<td>' + AssigameUtils.formatPriceFCFA(p.prix) + '</td>' +
+            '<td><strong>' + escapeHtml(p.nom_produit) + '</strong></td>' +
+            '<td>' + escapeHtml(vendeur) + '</td>' +
+            '<td>' + escapeHtml(cat) + '</td>' +
+            '<td>' + escapeHtml(AssigameUtils.formatPriceFCFA(p.prix)) + '</td>' +
             '<td><span class="badge badge-pending">En attente</span></td>' +
-            '<td class="text-right"><a href="/admin/moderation-produits.html?id=' + p.id_produit + '" class="btn btn-secondary" style="padding:6px 12px;"><i class="ph ph-magnifying-glass"></i> Modérer</a></td>' +
+            '<td class="text-right">' +
+              '<a href="/admin/examen-produit.html?id=' + p.id_produit + '" class="btn btn-secondary" style="padding:6px 14px;">' +
+                '<i class="ph ph-eye"></i> Examiner' +
+              '</a>' +
+            '</td>' +
           '</tr>'
         );
       }).join('');
     } catch (e) {
-      tbody.innerHTML = '<tr><td colspan="7">Erreur : ' + e.message + '</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7">Erreur : ' + escapeHtml(e.message) + '</td></tr>';
     }
   }
+
   await load();
 });

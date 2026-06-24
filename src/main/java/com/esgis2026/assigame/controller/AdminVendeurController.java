@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.esgis2026.assigame.dto.admin.AdminVendorResponse;
 import com.esgis2026.assigame.dto.auth.UserResponse;
 import com.esgis2026.assigame.service.AdminVendeurService;
 
@@ -32,6 +33,14 @@ public class AdminVendeurController {
     @GetMapping("/list")
     public ResponseEntity<List<UserResponse>> getDemandesEnAttente() {
         return ResponseEntity.ok(adminVendeurService.getDemandesEnAttente());
+    }
+
+    /**
+     * Liste tous les vendeurs de la plateforme (hors admin).
+     */
+    @GetMapping("/catalogue")
+    public ResponseEntity<List<AdminVendorResponse>> getAllVendeurs() {
+        return ResponseEntity.ok(adminVendeurService.getAllVendeurs());
     }
 
     /**

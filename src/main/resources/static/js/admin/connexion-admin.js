@@ -15,14 +15,23 @@ document.addEventListener('DOMContentLoaded', function () {
     errorEl.hidden = !message;
   }
 
+  function getRedirectUrl() {
+    var next = AssigameUtils.getQueryParam('next');
+    if (next && next.indexOf('/admin/') === 0 && next !== '/admin/connexion.html') {
+      return next;
+    }
+    return ADMIN_SPACE;
+  }
+
   function redirectIfAlreadyLoggedIn() {
-    var user = AssigameAPI.getUser();
-    if (user && AssigameAPI.getToken() && isAdminRole(user.role)) {
-      window.location.href = ADMIN_SPACE;
+    var user = AssigameAPI.getUser('admin');
+    if (user && AssigameAPI.getToken('admin') && isAdminRole(user.role)) {
+      window.location.href = getRedirectUrl();
     }
   }
 
   redirectIfAlreadyLoggedIn();
+  AssigameUtils.initPasswordToggles();
   if (!form) return;
 
   form.addEventListener('submit', function (event) {
@@ -42,20 +51,20 @@ document.addEventListener('DOMContentLoaded', function () {
       submitBtn.textContent = 'Connexion…';
     }
 
-    AssigameAPI.login(email, password)
+    AssigameAPI.login(email, password, 'admin')
       .then(function (res) {
-        var user = res.utilisateur || res.user || AssigameAPI.getUser();
+        var user = res.utilisateur || res.user || AssigameAPI.getUser('admin');
         if (!user) {
-          AssigameAPI.logout();
+          AssigameAPI.clearScope('admin');
           showError('Connexion OK mais profil introuvable.');
           return;
         }
         if (!isAdminRole(user.role)) {
-          AssigameAPI.logout();
+          AssigameAPI.clearScope('admin');
           showError('Ce compte n\'a pas les droits administrateur.');
           return;
         }
-        window.location.href = ADMIN_SPACE;
+        window.location.href = getRedirectUrl();
       })
       .catch(function (err) {
         var msg = (err && err.data && err.data.message) ? err.data.message : (err && err.message) ? err.message : null;

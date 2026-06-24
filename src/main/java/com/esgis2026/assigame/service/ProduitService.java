@@ -46,12 +46,30 @@ public class ProduitService {
     }
 
     public Optional<Produit> getProduitPublicById(Long id) {
-        return produitRepository.findById(id)
+        return produitRepository.findPublicByIdWithDetails(id)
                 .filter(produit -> STATUT_ACTIF.equals(produit.getStatut()));
+    }
+
+    public List<Produit> getProduitsSimilaires(Long produitId) {
+        Produit current = getProduitPublicById(produitId)
+                .orElseThrow(() -> new RuntimeException("Produit introuvable avec l'ID " + produitId));
+        if (current.getIdcategorie_produit() == null
+                || current.getIdcategorie_produit().getIdcategorie_produit() == null) {
+            return List.of();
+        }
+        Long categorieId = current.getIdcategorie_produit().getIdcategorie_produit();
+        return produitRepository.findSimilairesActifsByCategorie(categorieId, produitId).stream()
+                .limit(4)
+                .toList();
     }
 
     public List<Produit> getAllProduits() {
         return produitRepository.findAll();
+    }
+
+    public List<Produit> getMesProduits() {
+        Utilisateur vendeur = currentUtilisateur();
+        return produitRepository.findByVendeurId(vendeur.getId_utilisateur());
     }
 
     public Optional<Produit> getProduitById(Long id) {
@@ -134,6 +152,7 @@ public class ProduitService {
     public Produit updateProduit(Long id, Produit produitDetails) {
         Produit produit = produitRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produit non trouvé avec l'ID " + id));
+        assertOwnerOrAdmin(produit);
 
         Optional<Produit> duplicate = produitRepository.findByNomAndVendeur(
                 produitDetails.getNom_produit(), produit.getId_utilisateur().getId_utilisateur());
@@ -163,7 +182,21 @@ public class ProduitService {
     }
 
     public void deleteProduit(Long id) {
+        Produit produit = produitRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produit non trouvé avec l'ID " + id));
+        assertOwnerOrAdmin(produit);
         produitRepository.deleteById(id);
+    }
+
+    private void assertOwnerOrAdmin(Produit produit) {
+        if (isCurrentUserAdmin()) {
+            return;
+        }
+        Utilisateur current = currentUtilisateur();
+        if (produit.getId_utilisateur() == null
+                || !produit.getId_utilisateur().getId_utilisateur().equals(current.getId_utilisateur())) {
+            throw new RuntimeException("Vous n'êtes pas autorisé à modifier ce produit.");
+        }
     }
 
     private CategorieProduit resolveCategorieValide(CategorieProduit categorie) {

@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -18,6 +19,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     public WebConfig(@Value("${app.upload.dir:uploads/produits}") String uploadDir) {
         this.uploadDir = uploadDir;
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("forward:/catalogue.html");
     }
 
     @Override
