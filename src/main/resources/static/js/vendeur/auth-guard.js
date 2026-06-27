@@ -5,13 +5,33 @@
   document.documentElement.classList.add('vendor-auth-pending');
 
   var auth = window.AssigameVendorAuth;
-  if (!auth || !auth.hasValidVendorSession()) {
+  var loginUrl = '/connexion-vendeur.html?next=' + encodeURIComponent(path + window.location.search);
+
+  function redirectLogin() {
     if (window.AssigameAPI) AssigameAPI.clearScope('vendor');
-    window.location.replace(
-      '/connexion-vendeur.html?next=' + encodeURIComponent(path + window.location.search)
-    );
+    window.location.replace(loginUrl);
+  }
+
+  if (!auth || !auth.hasValidVendorSession()) {
+    redirectLogin();
     return;
   }
 
-  document.documentElement.classList.remove('vendor-auth-pending');
+  if (!window.AssigameAPI || !AssigameAPI.me) {
+    document.documentElement.classList.remove('vendor-auth-pending');
+    return;
+  }
+
+  AssigameAPI.me('vendor')
+    .then(function (user) {
+      if (!user || user.role === 'ADMIN' || user.statut !== 'ACTIF') {
+        redirectLogin();
+        return;
+      }
+      AssigameAPI.setUser(user, 'vendor');
+      document.documentElement.classList.remove('vendor-auth-pending');
+    })
+    .catch(function () {
+      redirectLogin();
+    });
 })();

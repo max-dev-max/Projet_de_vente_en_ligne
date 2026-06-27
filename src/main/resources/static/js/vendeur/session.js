@@ -2,6 +2,12 @@
   'use strict';
 
   var LOGIN_URL = '/connexion-vendeur.html';
+  var TOKEN_KEY = 'assigame_vendor_token';
+  var USER_KEY = 'assigame_vendor_user';
+
+  function vendorStore() {
+    return global.sessionStorage;
+  }
 
   function migrateLegacy() {
     var legacyToken = global.localStorage.getItem('assigame_token');
@@ -14,8 +20,10 @@
     }
     if (!legacyToken || !legacyUser || legacyUser.role === 'ADMIN') return;
 
-    global.localStorage.setItem('assigame_vendor_token', legacyToken);
-    global.localStorage.setItem('assigame_vendor_user', JSON.stringify(legacyUser));
+    vendorStore().setItem(TOKEN_KEY, legacyToken);
+    vendorStore().setItem(USER_KEY, JSON.stringify(legacyUser));
+    global.localStorage.removeItem(TOKEN_KEY);
+    global.localStorage.removeItem(USER_KEY);
   }
 
   function readUser() {
@@ -24,7 +32,7 @@
       return global.AssigameAPI.getUser('vendor');
     }
     try {
-      var raw = global.localStorage.getItem('assigame_vendor_user');
+      var raw = vendorStore().getItem(USER_KEY);
       return raw ? JSON.parse(raw) : null;
     } catch (e) {
       return null;
@@ -36,7 +44,7 @@
     if (global.AssigameAPI) {
       return global.AssigameAPI.getToken('vendor');
     }
-    return global.localStorage.getItem('assigame_vendor_token');
+    return vendorStore().getItem(TOKEN_KEY);
   }
 
   function hasValidVendorSession() {

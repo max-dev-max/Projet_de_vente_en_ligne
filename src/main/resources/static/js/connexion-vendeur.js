@@ -24,10 +24,26 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function redirectIfAlreadyLoggedIn() {
+    var token = AssigameAPI.getToken('vendor');
     var user = AssigameAPI.getUser('vendor');
-    if (user && AssigameAPI.getToken('vendor') && !isAdminRole(user.role)) {
-      window.location.href = getRedirectUrl();
+    if (!token || !user || isAdminRole(user.role)) {
+      return;
     }
+
+    AssigameAPI.me('vendor')
+      .then(function (profile) {
+        if (profile && profile.role && !isAdminRole(profile.role)) {
+          if (profile.statut === 'ACTIF') {
+            AssigameAPI.setUser(profile, 'vendor');
+            window.location.href = getRedirectUrl();
+          } else {
+            AssigameAPI.clearScope('vendor');
+          }
+        }
+      })
+      .catch(function () {
+        AssigameAPI.clearScope('vendor');
+      });
   }
 
   redirectIfAlreadyLoggedIn();
@@ -61,7 +77,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         if (isAdminRole(user.role)) {
           AssigameAPI.clearScope('vendor');
-          showError('Ce compte est un compte admin.');
+          showError('Ce compte est un compte administrateur. Utilisez la connexion admin.');
+          return;
+        }
+        if (user.statut && user.statut !== 'ACTIF') {
+          AssigameAPI.clearScope('vendor');
+          if (user.statut === 'EN_ATTENTE') {
+            showError('Votre compte est en attente de validation par l\'administrateur.');
+          } else if (user.statut === 'REFUSE') {
+            showError('Votre demande a été refusée. Contactez l\'administrateur ou réinscrivez-vous.');
+          } else {
+            showError('Votre compte n\'est pas actif (' + user.statut + ').');
+          }
           return;
         }
         window.location.href = getRedirectUrl();

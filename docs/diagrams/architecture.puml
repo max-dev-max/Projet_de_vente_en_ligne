@@ -1,0 +1,25 @@
+@startuml architecture
+skinparam componentStyle rectangle
+
+actor Navigateur as B
+
+package "Spring Boot (port 8080)" {
+  [Pages HTML/CSS/JS] as Static
+  [API REST /api/**] as API
+  [Spring Security + JWT] as Sec
+  [Services metier] as Svc
+  [Spring Data JPA] as JPA
+}
+
+database "PostgreSQL" as PG
+folder "uploads/produits" as FS
+
+B --> Static
+B --> API
+API --> Sec
+Sec --> Svc
+Svc --> JPA
+JPA --> PG
+Svc --> FS
+B --> FS : /uploads/produits/**
+@enduml

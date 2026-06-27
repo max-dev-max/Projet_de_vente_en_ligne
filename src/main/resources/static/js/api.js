@@ -7,9 +7,46 @@
   var API_BASE = global.ASSIGAME_API_BASE || '';
 
   var STORAGE = {
-    admin: { token: 'assigame_admin_token', user: 'assigame_admin_user' },
-    vendor: { token: 'assigame_vendor_token', user: 'assigame_vendor_user' }
+    admin: { token: 'assigame_admin_token', user: 'assigame_admin_user', persistent: true },
+    vendor: { token: 'assigame_vendor_token', user: 'assigame_vendor_user', persistent: false }
   };
+
+  function getStore(scope) {
+    var cfg = STORAGE[scope];
+    if (!cfg) return localStorage;
+    return cfg.persistent ? localStorage : sessionStorage;
+  }
+
+  function readItem(scope, key) {
+    return getStore(scope).getItem(key);
+  }
+
+  function writeItem(scope, key, value) {
+    var store = getStore(scope);
+    if (value == null || value === '') store.removeItem(key);
+    else store.setItem(key, value);
+  }
+
+  /** Déplace d'anciens tokens vendeur localStorage → sessionStorage (une fois). */
+  function migrateVendorToSessionStorage() {
+    var keys = STORAGE.vendor;
+    if (sessionStorage.getItem(keys.token) || sessionStorage.getItem(keys.user)) return;
+    var token = localStorage.getItem(keys.token);
+    var user = localStorage.getItem(keys.user);
+    if (token) {
+      sessionStorage.setItem(keys.token, token);
+      localStorage.removeItem(keys.token);
+    }
+    if (user) {
+      sessionStorage.setItem(keys.user, user);
+      localStorage.removeItem(keys.user);
+    }
+  }
+
+  function purgeVendorLocalStorage() {
+    localStorage.removeItem(STORAGE.vendor.token);
+    localStorage.removeItem(STORAGE.vendor.user);
+  }
 
   function resolveScope() {
     if (global.ASSIGAME_AUTH_SCOPE === 'admin' || global.ASSIGAME_AUTH_SCOPE === 'vendor') {
@@ -43,8 +80,9 @@
       localStorage.setItem(STORAGE.admin.token, legacyToken);
       localStorage.setItem(STORAGE.admin.user, JSON.stringify(legacyUser));
     } else if (scope === 'vendor' && !isAdmin) {
-      localStorage.setItem(STORAGE.vendor.token, legacyToken);
-      localStorage.setItem(STORAGE.vendor.user, JSON.stringify(legacyUser));
+      sessionStorage.setItem(STORAGE.vendor.token, legacyToken);
+      sessionStorage.setItem(STORAGE.vendor.user, JSON.stringify(legacyUser));
+      purgeVendorLocalStorage();
     }
   }
 
@@ -54,13 +92,17 @@
   }
 
   function getToken(scope) {
-    var keys = getScopeKeys(scope);
+    var resolved = scope || resolveScope();
+    var explicitScope = arguments.length > 0 && scope;
+    if (resolved === 'vendor') migrateVendorToSessionStorage();
+    var keys = getScopeKeys(resolved);
     if (keys) {
-      var scoped = localStorage.getItem(keys.token);
+      var scoped = readItem(resolved, keys.token);
       if (scoped) return scoped;
-      migrateLegacySession(scope);
-      scoped = localStorage.getItem(keys.token);
+      migrateLegacySession(resolved);
+      scoped = readItem(resolved, keys.token);
       if (scoped) return scoped;
+      if (explicitScope) return null;
     }
     return localStorage.getItem('assigame_token');
   }
@@ -68,8 +110,8 @@
   function setToken(token, scope) {
     scope = scope || resolveScope();
     if (scope && STORAGE[scope]) {
-      if (token) localStorage.setItem(STORAGE[scope].token, token);
-      else localStorage.removeItem(STORAGE[scope].token);
+      writeItem(scope, STORAGE[scope].token, token || null);
+      if (scope === 'vendor') purgeVendorLocalStorage();
     }
     if (!token) localStorage.removeItem('assigame_token');
     else if (!scope) localStorage.setItem('assigame_token', token);
@@ -77,13 +119,17 @@
 
   function getUser(scope) {
     try {
-      var keys = getScopeKeys(scope);
+      var resolved = scope || resolveScope();
+      var explicitScope = arguments.length > 0 && scope;
+      if (resolved === 'vendor') migrateVendorToSessionStorage();
+      var keys = getScopeKeys(resolved);
       if (keys) {
-        var raw = localStorage.getItem(keys.user);
+        var raw = readItem(resolved, keys.user);
         if (raw) return JSON.parse(raw);
-        migrateLegacySession(scope);
-        raw = localStorage.getItem(keys.user);
+        migrateLegacySession(resolved);
+        raw = readItem(resolved, keys.user);
         if (raw) return JSON.parse(raw);
+        if (explicitScope) return null;
       }
       return readLegacyUser();
     } catch (e) {
@@ -94,8 +140,8 @@
   function setUser(user, scope) {
     scope = scope || resolveScope();
     if (scope && STORAGE[scope]) {
-      if (user) localStorage.setItem(STORAGE[scope].user, JSON.stringify(user));
-      else localStorage.removeItem(STORAGE[scope].user);
+      writeItem(scope, STORAGE[scope].user, user ? JSON.stringify(user) : null);
+      if (scope === 'vendor') purgeVendorLocalStorage();
     }
     if (!user) localStorage.removeItem('assigame_user');
     else if (!scope) localStorage.setItem('assigame_user', JSON.stringify(user));
@@ -116,8 +162,9 @@
 
   function clearScope(scope) {
     if (!scope || !STORAGE[scope]) return;
-    localStorage.removeItem(STORAGE[scope].token);
-    localStorage.removeItem(STORAGE[scope].user);
+    writeItem(scope, STORAGE[scope].token, null);
+    writeItem(scope, STORAGE[scope].user, null);
+    if (scope === 'vendor') purgeVendorLocalStorage();
     clearLegacyIfMatches(scope);
   }
 
@@ -145,8 +192,10 @@
   async function request(path, options) {
     var opts = options || {};
     var headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
-    var token = getToken();
-    if (token) headers.Authorization = 'Bearer ' + token;
+    if (!opts.skipAuth) {
+      var token = getToken(opts.scope);
+      if (token) headers.Authorization = 'Bearer ' + token;
+    }
 
     var response = await fetch(API_BASE + path, {
       method: opts.method || 'GET',
@@ -185,13 +234,14 @@
     login: function (email, motDePasse, scope) {
       return request('/api/auth/login', {
         method: 'POST',
-        body: { email: email, motDePasse: motDePasse }
+        body: { email: email, motDePasse: motDePasse },
+        skipAuth: true
       }).then(function (res) {
         return persistLogin(res, scope || resolveScope());
       });
     },
-    me: function () {
-      return request('/api/auth/me');
+    me: function (scope) {
+      return request('/api/auth/me', { scope: scope || resolveScope() });
     },
 
     getProduits: function () {

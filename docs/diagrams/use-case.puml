@@ -1,0 +1,38 @@
+@startuml use-case
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor Visiteur as V
+actor Vendeur as VE
+actor Administrateur as A
+
+rectangle "Assigame" {
+  usecase "Consulter le catalogue" as UC1
+  usecase "Voir une fiche produit" as UC2
+  usecase "Contacter le vendeur" as UC3
+  usecase "S'inscrire comme vendeur" as UC4
+  usecase "Choisir une offre vendeur" as UC5
+  usecase "Se connecter" as UC6
+  usecase "Gerer ses produits" as UC7
+  usecase "Publier un produit" as UC8
+  usecase "Moderer les vendeurs" as UC9
+  usecase "Moderer les produits" as UC10
+  usecase "Gerer les categories" as UC11
+  usecase "Gerer les types vendeur" as UC12
+}
+
+V --> UC1
+V --> UC2
+V --> UC3
+VE --> UC4
+VE --> UC5
+VE --> UC6
+VE --> UC7
+VE --> UC8
+UC8 ..> UC7 : <<include>>
+A --> UC9
+A --> UC10
+A --> UC11
+A --> UC12
+@enduml

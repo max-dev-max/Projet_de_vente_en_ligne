@@ -1,0 +1,23 @@
+@startuml sequence-moderation
+actor Administrateur as Admin
+participant "Page examen-produit" as UI
+participant "AdminProduitController" as Ctrl
+participant "AdminProduitService" as Svc
+database "PostgreSQL" as DB
+
+Admin -> UI : Ouvre la fiche produit en attente
+UI -> Ctrl : GET /api/admin/demandes-produits/search/{id}
+Ctrl -> Svc : getProduitPourModeration(id)
+Svc -> DB : SELECT produit WHERE id
+DB --> Svc : Produit EN_ATTENTE
+Svc --> Ctrl : Detail produit
+Ctrl --> UI : JSON produit
+Admin -> UI : Clique Approuver
+UI -> Ctrl : POST /api/admin/demandes-produits/approve/{id}
+Ctrl -> Svc : approuverProduit(id)
+Svc -> DB : UPDATE statut = ACTIF
+DB --> Svc : OK
+Svc --> Ctrl : Produit mis a jour
+Ctrl --> UI : 200 OK
+UI --> Admin : Produit visible dans le catalogue public
+@enduml

@@ -1,0 +1,42 @@
+@startuml class-diagram
+skinparam classAttributeIconSize 0
+
+class TypeUtilisateur {
+  +Long id_typeutilisateur
+  +String nom_typeutilisateur
+  +String libelle_typeutilisateur
+  +String description_typeutilisateur
+}
+
+class Utilisateur {
+  +Long id_utilisateur
+  +String nom_utilisateur
+  +String prenom_utilisateur
+  +String email_utilisateur
+  +String telephone_utilisateur
+  +String sexe_utilisateur
+  +String mot_de_passe_utilisateur
+  +String statut_compte
+  +LocalDateTime date_creation
+}
+
+class CategorieProduit {
+  +Long idcategorie_produit
+  +String nom_categorieproduit
+  +String description
+}
+
+class Produit {
+  +Long id_produit
+  +String nom_produit
+  +String description
+  +double prix
+  +String image
+  +LocalDateTime date_ajout
+  +String statut
+}
+
+TypeUtilisateur "1" -- "0..*" Utilisateur : id_typeutilisateur
+Utilisateur "1" -- "0..*" Produit : id_utilisateur
+CategorieProduit "1" -- "0..*" Produit : idcategorie_produit
+@enduml
